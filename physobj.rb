@@ -34,18 +34,10 @@ class PhysCube < PhysObj
 		@ela = ela
 	end
 
-	def draw_vector(vec, scale=0.1, color=0xaf_ffaaaa)
-		clr = Gosu::Color.argb(color)
-		dx, dy = vec[0], vec[1]
-		xx, yy = @x + @width/2, @y + @height/2
-		Gosu.draw_line(xx, yy, clr, (xx + dx).round(1) * scale, (yy + dy).round(1) * scale, clr)
-		puts("#{dx} #{dy} #{[xx - (xx + dx), yy - (yy + dy)]}")
-	end
-
 	def render
 		x, y = self.pos[0], self.pos[1]
 		Gosu.draw_quad(x, y, @color, x + self.width, y, @color, x, y + self.height, @color, x + self.width, y + self.height, @color)
-		self.draw_vector(@accel, 10, 0xff_00ff00)
+		self.draw_vector(@vel, 2)
 	end
 
 	def physics
@@ -56,7 +48,20 @@ class PhysCube < PhysObj
 		y_max = world.height - self.height
 
 		if( x > x_max ) then self.pos[0] = x_max end
-		if( y > y_max ) then self.pos[1] = y_max end
+		if( y > y_max ) then 
+			self.pos[1] = y_max
+			self.vel[1] = -2
+			self.vel[0] = 1
+		end
 
 	end
+
+	def draw_vector(vec, scale=0.1, color=0xaf_ffaaaa)
+		clr = Gosu::Color.argb(color)
+		dx, dy = vec[0], vec[1]
+		xx, yy = @x + @width/2, @y + @height/2
+		Gosu.draw_line(xx, yy, clr, (xx + dx).round(1) * scale, (yy + dy).round(1) * scale, clr)
+		puts("#{dx} #{dy} #{[xx - (xx + dx), yy - (yy + dy)]}")
+	end
+
 end

@@ -34,7 +34,7 @@ planet = PhysCube.new(window, 16, 16, 0xff_aaffaa)
 
 cube = PhysCube.new(window, 8, 8)
 cube.accel = Vector[0, 0.1]
-cube.vel = Vector[0.01, 0]
+cube.vel = Vector[2, -2]
 
 window.physobjs << cube
 window.show
