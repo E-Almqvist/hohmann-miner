@@ -31,10 +31,11 @@ end
 window = Window.new("Physics!", 1600, 900)
 
 planet = PhysCube.new(window, 16, 16, 0xff_aaffaa)
+planet.pos = Vector[800, 450]
 
 cube = PhysCube.new(window, 8, 8)
-cube.accel = Vector[0, 0.1]
-cube.vel = Vector[2, -2]
+cube.vel = Vector[2, 0]
 
+window.physobjs << planet
 window.physobjs << cube
 window.show

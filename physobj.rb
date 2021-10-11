@@ -37,7 +37,7 @@ class PhysCube < PhysObj
 	def render
 		x, y = self.pos[0], self.pos[1]
 		Gosu.draw_quad(x, y, @color, x + self.width, y, @color, x, y + self.height, @color, x + self.width, y + self.height, @color)
-		self.draw_vector(@vel, 2)
+		# self.draw_vector(@vel, 2)
 	end
 
 	def physics
