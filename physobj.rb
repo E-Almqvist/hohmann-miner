@@ -21,6 +21,8 @@ class PhysObj
 	end
 
 	def tick
+		@x, @y = @pos[0], @pos[1]
+		@angle %= 360
 		if( !world.freeze ) then
 			if( @accel.magnitude != 0 ) then
 				@vel += @accel
@@ -29,8 +31,6 @@ class PhysObj
 			if( @vel.magnitude != 0 ) then
 				@pos += @vel
 			end
-			@x, @y = @pos[0], @pos[1]
-			@angle %= 360
 			@saved_pos << @pos
 
 			while(@saved_pos.length > MAX_PATH_TRACK_POINT) do
@@ -162,7 +162,7 @@ class Player < PhysCube
 	def tick
 		super
 
-		if( @engine ) then
+		if( @engine && !self.world.freeze ) then
 			self.vel += self.get_angle_vec * @thrust
 		end
 	end

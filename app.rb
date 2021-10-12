@@ -3,7 +3,7 @@ require "gosu"
 load "physobj.rb"
 
 class Window < Gosu::Window
-	attr_accessor :freeze, :caption, :physobjs, :planets, :controller
+	attr_accessor :freeze, :caption, :physobjs, :planets, :controller, :camera
 	attr_reader :width, :height, :fonts
 
 	def initialize(title, width, height, physobjs = [], planets = [])
@@ -24,6 +24,8 @@ class Window < Gosu::Window
 
 		@freeze = false
 		@controller = nil
+
+		@camera = Vector[width/2, height/2]
 	end
 
 	def button_up(id)
