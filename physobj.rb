@@ -29,7 +29,7 @@ class PhysObj
 
 	def render_path
 		@saved_pos.each do |pos|
-			Gosu.draw_rect(pos[0], pos[1], 1, 1, Gosu::Color.argb(0xaa_ccccff))
+			Gosu.draw_rect(pos[0], pos[1], 2, 2, Gosu::Color.argb(0xaa_ccccff))
 		end
 	end
 
@@ -53,19 +53,6 @@ class PhysCube < PhysObj
 
 	def physics
 		self.tick
-
-# 		x, y = self.pos[0], self.pos[1]
-# 		x_max = world.width - self.width
-# 		y_max = world.height - self.height
-# 
-# 		if( x > x_max ) then 
-# 			self.pos[0] = x_max 
-# 			self.vel[0] = 0
-# 		end
-# 		if( y > y_max ) then 
-# 			self.pos[1] = y_max
-# 			self.vel[1] = 0
-# 		end
 	end
 
 	def draw_vector(vec, scale=2, color=0xaf_ffaaaa)
