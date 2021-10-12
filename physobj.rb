@@ -1,5 +1,6 @@
 require "matrix"
 
+
 class PhysObj
 	attr_accessor :world, :pos, :vel, :accel, :x, :y
 	attr_reader :name
@@ -48,15 +49,14 @@ class PhysCube < PhysObj
 		x_max = world.width - self.width
 		y_max = world.height - self.height
 
-		if( x > x_max ) then 
-			self.pos[0] = x_max 
-			self.vel[0] = 0
-		end
-		if( y > y_max ) then 
-			self.pos[1] = y_max
-			self.vel[1] = 0
-		end
-
+# 		if( x > x_max ) then 
+# 			self.pos[0] = x_max 
+# 			self.vel[0] = 0
+# 		end
+# 		if( y > y_max ) then 
+# 			self.pos[1] = y_max
+# 			self.vel[1] = 0
+# 		end
 	end
 
 	def draw_vector(vec, scale=2, color=0xaf_ffaaaa)
@@ -78,4 +78,26 @@ class PhysCube < PhysObj
 		end
 	end
 
+end
+
+
+class Planet < PhysCube
+	attr_reader :gravity
+	def initialize(name, world, color, gravity=0.1)
+		super name, world, gravity*400, gravity*400, color
+
+		@gravity = gravity
+	end
+
+	private def calculate_gravity_vector(obj)
+		dir_vec = self.pos - obj.pos
+		return (self.gravity * dir_vec)/dir_vec.magnitude
+	end
+
+	def orbit(physobjs)
+		physobjs.each do |obj|
+			grav_vec = self.calculate_gravity_vector(obj)
+			obj.accel = grav_vec
+		end
+	end
 end
