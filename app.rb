@@ -23,6 +23,8 @@ class Window < Gosu::Window
 	def draw
 		@physobjs.each do |obj| 
 			obj.render
+			obj.draw_vector(obj.vel, 10)
+			obj.draw_vector(obj.accel, 500, 0xff_aaffaa)
 		end
 	end
 end
@@ -30,12 +32,12 @@ end
 
 window = Window.new("Physics!", 1600, 900)
 
-planet = PhysCube.new(window, 16, 16, 0xff_aaffaa)
+planet = PhysCube.new("Earth", window, 16, 16, 0xff_aaffaa)
 planet.pos = Vector[800, 450]
 
-cube = PhysCube.new(window, 8, 8)
-cube.accel = planet.pos * 0.001 
-cube.vel = Vector[2, 0]
+cube = PhysCube.new("Cube", window, 8, 8)
+cube.accel = Vector[0, 0.1] 
+cube.vel = Vector[10, 0]
 
 window.physobjs << planet
 window.physobjs << cube
