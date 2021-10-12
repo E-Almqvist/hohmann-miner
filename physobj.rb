@@ -74,10 +74,7 @@ class PhysCube < PhysObj
 			x2 = pos2[0]
 			y2 = pos2[1]
 
-			# Gosu.draw_line(x1, y1, clr, x2*scale, y2*scale, clr)
 			Gosu.draw_line(x1, y1, clr, x2, y2, clr)
-
-			puts("#{self.name}: pos1:#{pos1} pos2:#{pos2}")
 		end
 	end
 
