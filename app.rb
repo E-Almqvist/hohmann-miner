@@ -50,8 +50,8 @@ cube.pos = Vector[800, 450 + 100]
 cube.vel = Vector[4, 0]
 
 cube2 = PhysCube.new("Cube2", window, 8, 8)
-cube2.pos = Vector[800, 450 + 150]
-cube2.vel = Vector[1, 0]
+cube2.pos = Vector[800, 450]
+cube2.vel = Vector[5, 0]
 planet.orbit([cube, cube2])
 
 window.planets << planet

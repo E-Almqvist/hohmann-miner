@@ -29,7 +29,7 @@ class PhysObj
 
 	def render_path
 		@saved_pos.each do |pos|
-			Gosu.draw_rect(pos[0], pos[1], 1, 1, Gosu::Color.argb(0xaa_cccccc))
+			Gosu.draw_rect(pos[0], pos[1], 1, 1, Gosu::Color.argb(0xaa_ccccff))
 		end
 	end
 
@@ -54,10 +54,10 @@ class PhysCube < PhysObj
 	def physics
 		self.tick
 
-		x, y = self.pos[0], self.pos[1]
-		x_max = world.width - self.width
-		y_max = world.height - self.height
-
+# 		x, y = self.pos[0], self.pos[1]
+# 		x_max = world.width - self.width
+# 		y_max = world.height - self.height
+# 
 # 		if( x > x_max ) then 
 # 			self.pos[0] = x_max 
 # 			self.vel[0] = 0
@@ -92,15 +92,15 @@ end
 
 class Planet < PhysCube
 	attr_reader :gravity
-	def initialize(name, world, color, gravity=0.1)
-		super name, world, gravity*400, gravity*400, color
+	def initialize(name, world, color, gravity=0.05)
+		super name, world, 10, 10, color
 
 		@gravity = gravity
 	end
 
 	private def calculate_gravity_vector(obj)
 		dir_vec = self.pos - obj.pos + Vector[self.width/2, self.height/2]
-		return (GRAV_CONSTANT * self.gravity * dir_vec)/(dir_vec.magnitude ** 2)
+		return (self.gravity * dir_vec)/(dir_vec.magnitude)
 	end
 
 	def orbit(physobjs)
