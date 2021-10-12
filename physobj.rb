@@ -2,6 +2,7 @@ require "matrix"
 load "gosu_plugin.rb"
 
 GRAV_CONSTANT = 1e+1
+MAX_PATH_TRACK_POINT = 500
 
 class PhysObj
 	attr_accessor :world, :saved_pos, :pos, :vel, :accel, :x, :y, :show_info, :angle
@@ -29,6 +30,10 @@ class PhysObj
 		@x, @y = @pos[0], @pos[1]
 		@angle %= 360
 		@saved_pos << @pos
+
+		while(@saved_pos.length > MAX_PATH_TRACK_POINT) do
+			@saved_pos = @saved_pos[1..-1]
+		end
 	end
 
 	def render_path
@@ -137,7 +142,7 @@ end
 
 class Player < PhysCube
 	attr_accessor :engine, :thrust
-	def initialize(name, world, width, height, color=0xff_aaaaaa)
+	def initialize(name, world, width, height, color=0xff_ffffff)
 		super name, world, width, height, color
 
 		@engine = false
