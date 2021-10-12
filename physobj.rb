@@ -27,6 +27,7 @@ class PhysObj
 			@pos += @vel
 		end
 		@x, @y = @pos[0], @pos[1]
+		@angle %= 360
 		@saved_pos << @pos
 	end
 
@@ -135,16 +136,42 @@ end
 
 
 class Player < PhysCube
+	attr_accessor :engine, :thrust
 	def initialize(name, world, width, height, color=0xff_aaaaaa)
 		super name, world, width, height, color
+
+		@engine = false
+		@thrust = 0.001
+	end
+
+	private def get_angle_vec
+		rads = (self.angle * Math::PI) / 180
+		dir_vec = Vector[Math::cos(rads), Math::sin(rads)]
+		return dir_vec
+	end
+
+	def tick
+		super
+
+		if( @engine ) then
+			self.vel += self.get_angle_vec * @thrust
+		end
 	end
 
 	def button_up(id)
+		if( id == Gosu::KbSpace ) then
+			@engine = !@engine
+		end
+
+		if( id == Gosu::KbLeft ) then
+			self.angle -= 20
+		end
+
+		if( id == Gosu::KbRight ) then
+			self.angle += 20	
+		end
 	end
 
 	def button_down(id)
-		if( id == Gosu::KbDown ) then
-			puts("DOWN")
-		end
 	end
 end

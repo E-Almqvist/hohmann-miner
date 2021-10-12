@@ -88,6 +88,7 @@ planet.show_info = true
 
 cube = Player.new("Alpha", window, 8, 8)
 cube.show_info = true
+cube.thrust = 0.0075
 cube.pos = Vector[800, 450 + 200]
 cube.vel = Vector[2.5, 0]
 window.controller = cube
