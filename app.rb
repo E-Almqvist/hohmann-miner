@@ -30,6 +30,7 @@ class Window < Gosu::Window
 			obj.render
 			obj.draw_vector(obj.vel, 10)
 			obj.draw_vector(obj.accel, 500, 0xff_aaffaa)
+			obj.render_path
 		end
 
 		@planets.each do |planet|
@@ -45,9 +46,15 @@ planet = Planet.new("Earth", window, 0xff_aaffaa)
 planet.pos = Vector[800, 450]
 
 cube = PhysCube.new("Cube", window, 8, 8)
-cube.vel = Vector[1, 0]
-planet.orbit([cube])
+cube.pos = Vector[800, 450 + 100]
+cube.vel = Vector[4, 0]
+
+cube2 = PhysCube.new("Cube2", window, 8, 8)
+cube2.pos = Vector[800, 450 + 150]
+cube2.vel = Vector[1, 0]
+planet.orbit([cube, cube2])
 
 window.planets << planet
 window.physobjs << cube
+window.physobjs << cube2
 window.show

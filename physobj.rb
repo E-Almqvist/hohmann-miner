@@ -3,7 +3,7 @@ require "matrix"
 GRAV_CONSTANT = 1e+2
 
 class PhysObj
-	attr_accessor :world, :pos, :vel, :accel, :x, :y
+	attr_accessor :world, :saved_pos, :pos, :vel, :accel, :x, :y
 	attr_reader :name
 	def initialize(name, world)
 		@name = name
@@ -12,6 +12,7 @@ class PhysObj
 		@vel = Vector.zero(2)
 		@accel = Vector.zero(2)
 		@x, @y = 0, 0
+		@saved_pos = []
 	end
 
 	def tick
@@ -23,6 +24,13 @@ class PhysObj
 			@pos += @vel
 		end
 		@x, @y = @pos[0], @pos[1]
+		@saved_pos << @pos
+	end
+
+	def render_path
+		@saved_pos.each do |pos|
+			Gosu.draw_rect(pos[0], pos[1], 1, 1, Gosu::Color.argb(0xaa_cccccc))
+		end
 	end
 
 end
@@ -91,8 +99,8 @@ class Planet < PhysCube
 	end
 
 	private def calculate_gravity_vector(obj)
-		dir_vec = self.pos - obj.pos
-		return (GRAV_CONSTANT * self.gravity * dir_vec)/(dir_vec.magnitude**2)
+		dir_vec = self.pos - obj.pos + Vector[self.width/2, self.height/2]
+		return (GRAV_CONSTANT * self.gravity * dir_vec)/(dir_vec.magnitude ** 2)
 	end
 
 	def orbit(physobjs)
