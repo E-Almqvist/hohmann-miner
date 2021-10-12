@@ -21,19 +21,21 @@ class PhysObj
 	end
 
 	def tick
-		if( @accel.magnitude != 0 ) then
-			@vel += @accel
-		end
+		if( !world.freeze ) then
+			if( @accel.magnitude != 0 ) then
+				@vel += @accel
+			end
 
-		if( @vel.magnitude != 0 ) then
-			@pos += @vel
-		end
-		@x, @y = @pos[0], @pos[1]
-		@angle %= 360
-		@saved_pos << @pos
+			if( @vel.magnitude != 0 ) then
+				@pos += @vel
+			end
+			@x, @y = @pos[0], @pos[1]
+			@angle %= 360
+			@saved_pos << @pos
 
-		while(@saved_pos.length > MAX_PATH_TRACK_POINT) do
-			@saved_pos = @saved_pos[1..-1]
+			while(@saved_pos.length > MAX_PATH_TRACK_POINT) do
+				@saved_pos = @saved_pos[1..-1]
+			end
 		end
 	end
 

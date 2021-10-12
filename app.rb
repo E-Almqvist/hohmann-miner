@@ -14,7 +14,7 @@ class Window < Gosu::Window
 		@physobjs = physobjs
 		@planets = planets
 
-		@font = Gosu::Font.new(self, Gosu::default_font_name, 14)
+		@font = Gosu::Font.new(self, Gosu::default_font_name, 18)
 		@font2 = Gosu::Font.new(self, Gosu::default_font_name, 20)
 
 		@fonts = {
@@ -63,14 +63,12 @@ class Window < Gosu::Window
 # 	end
 
 	def update
-		if( !@freeze ) then
-			@physobjs.each do |obj| 
-				obj.physics 
-			end
+		@physobjs.each do |obj| 
+			obj.physics 
+		end
 
-			@planets.each do |planet|
-				planet.orbit(@physobjs)
-			end
+		@planets.each do |planet|
+			planet.orbit(@physobjs)
 		end
 	end
 
