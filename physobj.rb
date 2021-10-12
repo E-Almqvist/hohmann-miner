@@ -1,5 +1,6 @@
 require "matrix"
 
+GRAV_CONSTANT = 1e+2
 
 class PhysObj
 	attr_accessor :world, :pos, :vel, :accel, :x, :y
@@ -91,7 +92,7 @@ class Planet < PhysCube
 
 	private def calculate_gravity_vector(obj)
 		dir_vec = self.pos - obj.pos
-		return (self.gravity * dir_vec)/dir_vec.magnitude
+		return (GRAV_CONSTANT * self.gravity * dir_vec)/(dir_vec.magnitude**2)
 	end
 
 	def orbit(physobjs)

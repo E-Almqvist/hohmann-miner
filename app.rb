@@ -45,7 +45,7 @@ planet = Planet.new("Earth", window, 0xff_aaffaa)
 planet.pos = Vector[800, 450]
 
 cube = PhysCube.new("Cube", window, 8, 8)
-cube.vel = Vector[10, 0]
+cube.vel = Vector[1, 0]
 planet.orbit([cube])
 
 window.planets << planet
