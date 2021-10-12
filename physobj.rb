@@ -1,6 +1,7 @@
 require "matrix"
+load "gosu_plugin.rb"
 
-GRAV_CONSTANT = 1e+2
+GRAV_CONSTANT = 1e+1
 
 class PhysObj
 	attr_accessor :world, :saved_pos, :pos, :vel, :accel, :x, :y
@@ -29,7 +30,7 @@ class PhysObj
 
 	def render_path
 		@saved_pos.each do |pos|
-			Gosu.draw_rect(pos[0], pos[1], 2, 2, Gosu::Color.argb(0xaa_ccccff))
+			Gosu.draw_rect(pos[0], pos[1], 2, 2, Gosu::Color.argb(0x44_ccccff))
 		end
 	end
 
@@ -78,17 +79,20 @@ end
 
 
 class Planet < PhysCube
-	attr_reader :gravity
-	def initialize(name, world, color, gravity=0.05)
-		super name, world, 10, 10, color
+	attr_reader :mass
+	def initialize(name, world, color, mass=1e+2)
+		super name, world, 40, 40, color
+		@mass = mass
+	end
 
-		@gravity = gravity
+	private def calculate_gravity_scalar(obj, dir_vec)
+		grav = GRAV_CONSTANT * (self.mass/(dir_vec.magnitude**2))
+		return grav
 	end
 
 	private def calculate_gravity_vector(obj)
 		dir_vec = self.pos - obj.pos + Vector[self.width/2, self.height/2]
-		return dir_vec * self.gravity
-		# return (self.gravity * dir_vec)/(dir_vec.magnitude)
+		return (dir_vec/dir_vec.magnitude) * calculate_gravity_scalar(obj, dir_vec)  
 	end
 
 	def orbit(physobjs)
@@ -96,5 +100,9 @@ class Planet < PhysCube
 			grav_vec = self.calculate_gravity_vector(obj)
 			obj.accel = grav_vec
 		end
+	end
+
+	def render
+		Gosu.draw_circle(self.pos[0], self.pos[1], 20, @color)
 	end
 end
