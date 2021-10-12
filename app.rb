@@ -15,7 +15,7 @@ class Window < Gosu::Window
 		@planets = planets
 
 		@font = Gosu::Font.new(self, Gosu::default_font_name, 12)
-		@font2 = Gosu::Font.new(self, Gosu::default_font_name, 32)
+		@font2 = Gosu::Font.new(self, Gosu::default_font_name, 18)
 		@freeze = false
 	end
 
@@ -44,9 +44,8 @@ class Window < Gosu::Window
 	end
 
 	def draw
-		if( @freeze ) then
-			@font2.draw("FROZEN", 0, 0, 1, 1.0, 1.0, Gosu::Color::WHITE)
-		end
+		status_text = @freeze ? "FROZEN (Escape to unfreeze)" : "(Escape to freeze)"
+		@font2.draw(status_text, 0, 0, 1, 1.0, 1.0, Gosu::Color::WHITE)
 
 		@physobjs.each do |obj| 
 			obj.render
@@ -66,7 +65,7 @@ end
 
 window = Window.new("Physics!", 1600, 900)
 
-planet = Planet.new("Earth", window, 0xff_aaffaa)
+planet = Planet.new("Sol", window, 0xff_ffffaa, 1e2, 20, 120)
 planet.pos = Vector[800, 450]
 
 cube = PhysCube.new("Cube", window, 8, 8)
@@ -74,8 +73,8 @@ cube.pos = Vector[800, 450 + 200]
 cube.vel = Vector[2.5, 0]
 
 cube2 = PhysCube.new("Cube2", window, 8, 8)
-cube2.pos = Vector[800, 450 + 400]
-cube2.vel = Vector[1.25, 0]
+cube2.pos = Vector[800, 450 - 200]
+cube2.vel = Vector[-2.5, 0]
 planet.orbit([cube, cube2])
 
 window.planets << planet

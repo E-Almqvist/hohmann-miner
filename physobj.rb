@@ -78,11 +78,16 @@ class PhysCube < PhysObj
 end
 
 
-class Planet < PhysCube
-	attr_reader :mass
-	def initialize(name, world, color, mass=1e+2)
-		super name, world, 40, 40, color
+class Planet < PhysObj
+	attr_reader :color, :mass, :radius, :circle_thickness
+	def initialize(name, world, color, mass=1e+2, radius=20, circle_thickness=4)
+		super name, world
+
+		@color = color
 		@mass = mass
+
+		@radius = radius
+		@circle_thickness = circle_thickness
 	end
 
 	private def calculate_gravity_scalar(obj, dir_vec)
@@ -91,7 +96,7 @@ class Planet < PhysCube
 	end
 
 	private def calculate_gravity_vector(obj)
-		dir_vec = self.pos - obj.pos + Vector[self.width/2, self.height/2]
+		dir_vec = self.pos - obj.pos + Vector[@radius/2, @radius/2]
 		return (dir_vec/dir_vec.magnitude) * calculate_gravity_scalar(obj, dir_vec)  
 	end
 
@@ -103,6 +108,6 @@ class Planet < PhysCube
 	end
 
 	def render
-		Gosu.draw_circle(self.pos[0], self.pos[1], 20, @color)
+		Gosu.draw_circle(self.pos[0], self.pos[1], @radius, @color, 0, @circle_thickness)
 	end
 end
