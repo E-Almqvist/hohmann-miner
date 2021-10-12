@@ -46,6 +46,22 @@ class Window < Gosu::Window
 		end
 	end
 
+# 	def button_up?(id)
+# 		super id
+# 
+# 		if( @controller != nil ) then
+# 			@controller.button_up?(id)
+# 		end
+# 	end
+# 
+# 	def button_down?(id)
+# 		super id
+# 
+# 		if( @controller != nil ) then
+# 			@controller.button_down?(id)
+# 		end
+# 	end
+
 	def update
 		if( !@freeze ) then
 			@physobjs.each do |obj| 
@@ -95,7 +111,7 @@ window.controller = cube
 
 cube2 = PhysCube.new("Beta", window, 8, 8)
 cube2.pos = Vector[800, 450 + 300]
-cube2.vel = Vector[-2.5, 0]
+cube2.vel = Vector[-1.24, 0]
 
 planet.orbit([cube, cube2])
 

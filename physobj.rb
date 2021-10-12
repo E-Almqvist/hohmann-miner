@@ -159,6 +159,12 @@ class Player < PhysCube
 	end
 
 	def button_up(id)
+	end
+
+	def button_up?(id)
+	end
+
+	def button_down(id)
 		if( id == Gosu::KbSpace ) then
 			@engine = !@engine
 		end
@@ -172,6 +178,10 @@ class Player < PhysCube
 		end
 	end
 
-	def button_down(id)
+	def button_down?(id)
+	end
+
+	private def debug_string
+		return "\n#{self.name}\nVel: #{self.vel.magnitude.round(1)} #{self.vel.round(4)}\nAccel: #{self.accel.magnitude.round(4)} #{self.accel.round(4)}\nPos: #{self.pos.round(4)}\nAngle: #{self.angle.round(1)} deg\nEngine: #{self.engine}\nThrust: #{self.thrust}\n"
 	end
 end
