@@ -5,7 +5,7 @@ GRAV_CONSTANT = 1e+1
 MAX_PATH_TRACK_POINT = 500
 
 class PhysObj
-	attr_accessor :world, :saved_pos, :pos, :vel, :accel, :x, :y, :show_info, :angle
+	attr_accessor :world, :saved_pos, :pos, :vel, :accel, :x, :y, :show_info, :angle, :parent_orbit
 	attr_reader :name
 	def initialize(name, world)
 		@name = name
@@ -17,6 +17,7 @@ class PhysObj
 		@saved_pos = []
 		@show_info = false
 		@angle = 0
+		@parent_orbit = ""
 	end
 
 	def tick
@@ -43,7 +44,7 @@ class PhysObj
 	end
 
 	private def debug_string
-		return "\n#{self.name}\nVel: #{self.vel.magnitude.round(1)} #{self.vel.round(4)}\nAccel: #{self.accel.magnitude.round(4)} #{self.accel.round(4)}\nPos: #{self.pos.round(4)}\nAngle: #{self.angle.round(1)} deg\n"
+		return "\n#{self.name} - #{self.parent_orbit.name}\nVel: #{self.vel.magnitude.round(1)} #{self.vel.round(4)}\nAccel: #{self.accel.magnitude.round(4)} #{self.accel.round(4)}\nPos: #{self.pos.round(4)}\nAngle: #{self.angle.round(1)} deg\n"
 	end
 
 	def render(x_offset=0, y_offset=0, color=Gosu::Color.argb(0xaa_2222ff))
@@ -126,6 +127,7 @@ class Planet < PhysObj
 		physobjs.each do |obj|
 			grav_vec = self.calculate_gravity_vector(obj)
 			obj.accel = grav_vec
+			obj.parent_orbit = self
 		end
 	end
 
@@ -187,6 +189,6 @@ class Player < PhysCube
 	end
 
 	private def debug_string
-		return "\n#{self.name}\nVel: #{self.vel.magnitude.round(1)} #{self.vel.round(4)}\nAccel: #{self.accel.magnitude.round(4)} #{self.accel.round(4)}\nPos: #{self.pos.round(4)}\nAngle: #{self.angle.round(1)} deg\nEngine: #{self.engine}\nThrust: #{self.thrust}\n"
+		return "\n#{self.name} - #{self.parent_orbit.name}\nVel: #{self.vel.magnitude.round(1)} #{self.vel.round(4)}\nAccel: #{self.accel.magnitude.round(4)} #{self.accel.round(4)}\nPos: #{self.pos.round(4)}\nAngle: #{self.angle.round(1)} deg\nEngine: #{self.engine}\nThrust: #{self.thrust}\n"
 	end
 end
