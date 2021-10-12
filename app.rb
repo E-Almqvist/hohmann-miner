@@ -42,7 +42,7 @@ end
 
 window = Window.new("Physics!", 1600, 900)
 
-planet = Planet.new("Earth", window, 0xff_aaffaa)
+planet = Planet.new("Earth", window, 0xff_aaffaa, 0.0001)
 planet.pos = Vector[800, 450]
 
 cube = PhysCube.new("Cube", window, 8, 8)

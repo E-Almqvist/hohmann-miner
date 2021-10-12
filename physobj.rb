@@ -100,7 +100,8 @@ class Planet < PhysCube
 
 	private def calculate_gravity_vector(obj)
 		dir_vec = self.pos - obj.pos + Vector[self.width/2, self.height/2]
-		return (self.gravity * dir_vec)/(dir_vec.magnitude)
+		return dir_vec * self.gravity
+		# return (self.gravity * dir_vec)/(dir_vec.magnitude)
 	end
 
 	def orbit(physobjs)
