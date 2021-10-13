@@ -25,7 +25,7 @@ class Window < Gosu::Window
 		@freeze = false
 		@controller = nil
 
-		@camera = Vector[width/2, height/2]
+		@camera = Vector[0, 0]
 	end
 
 	def button_up(id)
@@ -79,10 +79,15 @@ class Window < Gosu::Window
 	end
 
 	def draw
-		@font2.draw("Frozen: #{@freeze}", 0, 0, 1, 1.0, 1.0, Gosu::Color::WHITE)
+		if( @controller != nil ) then
+			@camera = Vector[self.width/2, self.height/2] - @controller.pos 
+		end
+		camx, camy = @camera[0], @camera[1]
+
+		@font2.draw_text("Frozen: #{@freeze}", 0, 0, 1, 1.0, 1.0, Gosu::Color::WHITE)
 
 		@physobjs.each do |obj| 
-			obj.render
+			obj.render(camx, camy)
 			obj.draw_vector(obj.vel, 10)
 			obj.draw_vector(obj.accel, 500, 0xff_aaffaa)
 			obj.render_path
@@ -90,7 +95,7 @@ class Window < Gosu::Window
 		end
 
 		@planets.each do |planet|
-			planet.render
+			planet.render(camx, camy)
 		end
 	end
 end

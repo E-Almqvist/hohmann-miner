@@ -51,17 +51,17 @@ class PhysObj
 
 	def render(x_offset=0, y_offset=0, color=Gosu::Color.argb(0xaa_2222ff))
 		if( @show_info ) then
-			self.world.fonts[:normal].draw(self.debug_string, self.pos[0] + x_offset, self.pos[1] + y_offset, 1, 1.0, 1.0, color)
+			self.world.fonts[:normal].draw_text(self.debug_string, self.pos[0] + x_offset, self.pos[1] + y_offset, 1, 1.0, 1.0, color)
 		end
 	end
 
-	def draw_vector(vec, scale=2, color=0xaf_ffaaaa)
+	def draw_vector(vec, scale=2, color=0xaf_ffaaaa, x_offset=0, y_offset=0)
 		if( vec.magnitude != 0 ) then
 			clr = Gosu::Color.argb(color)
 
 			scaled_vec = vec*scale
 
-			pos1 = self.pos + Vector[self.width/2, self.height/2]
+			pos1 = self.pos + Vector[x_offset, y_offset]
 			pos2 = pos1 + scaled_vec
 			
 			x1 = pos1[0]
@@ -91,9 +91,9 @@ class PhysCube < PhysObj
 		@color = Gosu::Color.argb(color)
 	end
 
-	def render
-		super 0, 0, @color
-		x, y = self.pos[0], self.pos[1]
+	def render(offset_x=0, offset_y=0)
+		super offset_x, offset_y, @color
+		x, y = offset_x + self.pos[0], offset_y + self.pos[1]
 		Gosu.draw_quad(x, y, @color, x + self.width, y, @color, x, y + self.height, @color, x + self.width, y + self.height, @color)
 	end
 
@@ -137,9 +137,9 @@ class Planet < PhysObj
 		return "\n#{self.name}\nPos: #{self.pos.round(4)}\nMass: #{self.mass.round(4)}\nRadius: #{self.radius.round(4)} p\nGravity: #{(self.mass*GRAV_CONSTANT).round(2)} p/r^2"
 	end
 
-	def render
+	def render(x_offset=0, y_offset=0)
 		super @radius*3, @radius*3, Gosu::Color.argb(0xff_ffffff)
-		Gosu.draw_circle(self.pos[0], self.pos[1], @radius, @color, 0, @circle_thickness)
+		Gosu.draw_circle(self.pos[0] + x_offset, self.pos[1] + y_offset, @radius, @color, 0, @circle_thickness)
 	end
 end
 
