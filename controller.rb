@@ -55,6 +55,6 @@ class Player < PhysCube
 	end
 
 	def debug_string
-		return "\nName: #{self.name}\nOrbit of: #{self.parent_orbit.name}\nVel: #{self.vel.magnitude.round(1)} #{self.vel.round(4)}\nAccel: #{self.accel.magnitude.round(4)} #{self.accel.round(4)}\nPos: #{self.pos.round(4)}\nAngle: #{self.angle.round(1)} deg\nEngine: #{self.engine}\nThrust: #{self.thrust}\n"
+		return "\nName: #{self.name}\nOrbit of: #{self.parent_orbit.name}\nVel: #{self.vel.magnitude.round(1)} #{self.vel.round(4)}\nAccel: #{self.accel.magnitude.round(4)} #{self.accel.round(4)}\nPos: #{self.pos.round(4)}\nAngle: #{self.angle.round(1)} deg\nEngine: #{self.engine}\nThrust: #{self.thrust}\naccel_vecs: #{self.accel_vecs}\n"
 	end
 end

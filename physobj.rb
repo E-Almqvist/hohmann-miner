@@ -15,21 +15,21 @@ class PhysObj
 		@show_info = false
 		@angle = 0
 		@parent_orbit = ""
-		@accel_vecs = []
+		@accel_vecs = Hash.new(Vector[0, 0])
 	end
 
-	private def apply_accel_vecs
-		@accel_vecs.each do |vec|
-			@accel += vec
+	def apply_accel_vecs
+		summed_vec = Vector.zero(2)
+		@accel_vecs.each do |planet, vec|
+			summed_vec += vec
 		end
-		@accel_vecs = []
+		@accel = summed_vec
 	end
 
 	def tick
 		@x, @y = @pos[0], @pos[1]
 		@angle %= 360
 
-		self.apply_accel_vecs
 		if( !world.freeze ) then
 			if( @accel.magnitude != 0 ) then
 				@vel += @accel
@@ -52,7 +52,7 @@ class PhysObj
 		end
 	end
 
-	private def debug_string
+	def debug_string
 		return "\n#{self.name} - #{self.parent_orbit.name}\nVel: #{self.vel.magnitude.round(1)} #{self.vel.round(4)}\nAccel: #{self.accel.magnitude.round(4)} #{self.accel.round(4)}\nPos: #{self.pos.round(4)}\nAngle: #{self.angle.round(1)} deg\n"
 	end
 
@@ -122,6 +122,10 @@ class Planet < PhysObj
 		@circle_thickness = circle_thickness
 	end
 
+	def physics
+		self.tick
+	end
+
 	private def calculate_gravity_scalar(obj, dir_vec)
 		grav = GRAV_CONSTANT * (self.mass/(dir_vec.magnitude**2))
 		return grav
@@ -136,18 +140,28 @@ class Planet < PhysObj
 		if( !self.world.freeze ) then
 			physobjs.each do |obj|
 				grav_vec = self.calculate_gravity_vector(obj)
-				obj.accel_vecs << grav_vec
+				obj.accel_vecs[self.name] = grav_vec
+				obj.apply_accel_vecs
+				obj.parent_orbit = self
 			end
 		end
 	end
 
-	private def debug_string
-		return "\n#{self.name}\nPos: #{self.pos.round(4)}\nMass: #{self.mass.round(4)}\nRadius: #{self.radius.round(4)} p\nGravity: #{(self.mass*GRAV_CONSTANT).round(2)} p/r^2"
-	end
+	# def debug_string
+	#	return "\n#{self.name}\nPos: #{self.pos.round(4)}\nMass: #{self.mass.round(4)}\nRadius: #{self.radius.round(4)} p\nGravity: #{(self.mass*GRAV_CONSTANT).round(2)} p/r^2"
+	#end
 
 	def render(x_offset=0, y_offset=0)
 		super @radius*3, @radius*3, Gosu::Color.argb(0xff_ffffff)
 		Gosu.draw_circle(self.pos[0] + x_offset, self.pos[1] + y_offset, @radius, @color, 0, @circle_thickness)
+	end
+
+	def width
+		return @radius
+	end
+
+	def height
+		return @radius
 	end
 end
 

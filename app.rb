@@ -34,7 +34,7 @@ class Window < Gosu::Window
 	def button_up(id)
 		super id
 
-		if( @controller != nil ) then
+		if( @controller != nil && @controller.class == Player ) then
 			@controller.button_up(id)
 		end
 	end
@@ -46,7 +46,7 @@ class Window < Gosu::Window
 			@freeze = !@freeze
 		end
 
-		if( @controller != nil ) then
+		if( @controller != nil && @controller.class == Player ) then
 			@controller.button_down(id)
 		end
 	end
@@ -54,7 +54,7 @@ class Window < Gosu::Window
 # 	def button_up?(id)
 # 		super id
 # 
-# 		if( @controller != nil ) then
+# 		if( @controller != nil && @controller.class == Player ) then
 # 			@controller.button_up?(id)
 # 		end
 # 	end
@@ -62,7 +62,7 @@ class Window < Gosu::Window
 # 	def button_down?(id)
 # 		super id
 # 
-# 		if( @controller != nil ) then
+# 		if( @controller != nil && @controller.class == Player ) then
 # 			@controller.button_down?(id)
 # 		end
 # 	end
@@ -73,7 +73,11 @@ class Window < Gosu::Window
 		end
 
 		@planets.each do |planet|
-			planet.orbit(@physobjs)
+			orbiters = []
+			orbiters += @physobjs
+			orbiters += @planets
+			orbiters.delete(planet)
+			planet.orbit(planets)
 		end
 	end
 
@@ -82,11 +86,12 @@ class Window < Gosu::Window
 	end
 
 	def draw
-		if( @controller != nil ) then
+		if( @controller != nil && @controller.class == Player ) then
 			@camera = Vector[self.width/2, self.height/2] - @controller.pos 
 			@font.draw_text(@controller.debug_string, 0, 32, 1, 1.0, 1.0, Gosu::Color::WHITE)
 		end
 		camx, camy = @camera[0], @camera[1]
+		# camx, camy = 0, 0
 
 		@font2.draw_text("Frozen: #{@freeze}", 0, 0, 1, 1.0, 1.0, Gosu::Color::WHITE)
 
@@ -112,27 +117,29 @@ cube.show_info = false
 cube.thrust = 0.0075
 cube.pos = Vector[800, 450 + 200]
 cube.vel = Vector[2.5, 0]
-window.controller = cube
 
 cube2 = PhysCube.new("Beta", window, 8, 8)
 cube2.pos = Vector[800, 450 + 300]
 cube2.vel = Vector[-1.24, 0]
 cube2.show_info = true
 
-sol_orbiters = [cube, cube2]
-sol = Planet.new("Sol", window, 0xff_ffffaa, 1e2, 5, 12)
+sol = Planet.new("Sol", window, 0xff_ffffaa, 1e2, 15, 1)
 sol.pos = Vector[800, 450]
-sol.orbit(sol_orbiters)
 
-planet = Planet.new("Planet", window, 0xff_cccccc, 1e1, 2, 12)
+planet = Planet.new("Planet", window, 0xff_cccccc, 1e1, 8, 1)
 planet.pos = Vector[200, 150]
+planet.show_info = true
 
 
+sol_orbiters = [cube, cube2, planet]
+sol.orbit(sol_orbiters)
 
 window.planets << sol 
 window.planets << planet
 
 window.physobjs << cube
 window.physobjs << cube2
+window.physobjs << planet
 
+window.controller = planet 
 window.show
