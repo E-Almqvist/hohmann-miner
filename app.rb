@@ -103,9 +103,9 @@ end
 
 window = Window.new("Physics!", 1600, 900)
 
-planet = Planet.new("Sol", window, 0xff_ffffaa, 1e2, 20, 120)
+planet = Planet.new("Sol", window, 0xff_ffffaa, 1e2, 5, 12)
 planet.pos = Vector[800, 450]
-planet.show_info = true
+planet.show_info = false 
 
 cube = Player.new("Alpha", window, 8, 8)
 cube.show_info = true
@@ -117,6 +117,7 @@ window.controller = cube
 cube2 = PhysCube.new("Beta", window, 8, 8)
 cube2.pos = Vector[800, 450 + 300]
 cube2.vel = Vector[-1.24, 0]
+cube2.show_info = true
 
 planet.orbit([cube, cube2])
 
