@@ -1,6 +1,9 @@
 #!/usr/bin/ruby -w
+require "matrix"
 require "gosu"
+load "gosu_plugin.rb"
 load "physobj.rb"
+load "controller.rb"
 
 class Window < Gosu::Window
 	attr_accessor :freeze, :caption, :physobjs, :planets, :controller, :camera
@@ -34,14 +37,14 @@ class Window < Gosu::Window
 		if( @controller != nil ) then
 			@controller.button_up(id)
 		end
-
-		if( id == Gosu::KbEscape ) then
-			@freeze = !@freeze
-		end
 	end
 
 	def button_down(id)
 		super id
+
+		if( id == Gosu::KbEscape ) then
+			@freeze = !@freeze
+		end
 
 		if( @controller != nil ) then
 			@controller.button_down(id)
@@ -81,6 +84,7 @@ class Window < Gosu::Window
 	def draw
 		if( @controller != nil ) then
 			@camera = Vector[self.width/2, self.height/2] - @controller.pos 
+			@font.draw_text(@controller.debug_string, 0, 32, 1, 1.0, 1.0, Gosu::Color::WHITE)
 		end
 		camx, camy = @camera[0], @camera[1]
 
@@ -103,12 +107,8 @@ end
 
 window = Window.new("Physics!", 1600, 900)
 
-planet = Planet.new("Sol", window, 0xff_ffffaa, 1e2, 5, 12)
-planet.pos = Vector[800, 450]
-planet.show_info = false 
-
 cube = Player.new("Alpha", window, 8, 8)
-cube.show_info = true
+cube.show_info = false 
 cube.thrust = 0.0075
 cube.pos = Vector[800, 450 + 200]
 cube.vel = Vector[2.5, 0]
@@ -119,9 +119,20 @@ cube2.pos = Vector[800, 450 + 300]
 cube2.vel = Vector[-1.24, 0]
 cube2.show_info = true
 
-planet.orbit([cube, cube2])
+sol_orbiters = [cube, cube2]
+sol = Planet.new("Sol", window, 0xff_ffffaa, 1e2, 5, 12)
+sol.pos = Vector[800, 450]
+sol.orbit(sol_orbiters)
 
+planet = Planet.new("Planet", window, 0xff_cccccc, 1e1, 2, 12)
+planet.pos = Vector[200, 150]
+
+
+
+window.planets << sol 
 window.planets << planet
+
 window.physobjs << cube
 window.physobjs << cube2
+
 window.show
