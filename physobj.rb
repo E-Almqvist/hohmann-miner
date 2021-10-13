@@ -33,7 +33,7 @@ class PhysObj
 			end
 			@saved_pos << @pos
 
-			while(@saved_pos.length > MAX_PATH_TRACK_POINT) do
+			if(@saved_pos.length > MAX_PATH_TRACK_POINT) then
 				@saved_pos = @saved_pos[1..-1]
 			end
 		end
