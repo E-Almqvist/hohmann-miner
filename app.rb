@@ -88,10 +88,10 @@ class Window < Gosu::Window
 
 		@physobjs.each do |obj| 
 			obj.render(camx, camy)
-			obj.draw_vector(obj.vel, 10)
-			obj.draw_vector(obj.accel, 500, 0xff_aaffaa)
-			obj.render_path
-			obj.draw_direction
+			obj.draw_vector(obj.vel, 10, 0xff_ffaaaaa, camx, camy)
+			obj.draw_vector(obj.accel, 500, 0xff_aaffaa, camx, camy)
+			obj.render_path(camx, camy)
+			obj.draw_direction(camx, camy)
 		end
 
 		@planets.each do |planet|

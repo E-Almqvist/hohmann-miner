@@ -2,7 +2,7 @@ require "matrix"
 load "gosu_plugin.rb"
 
 GRAV_CONSTANT = 1e+1
-MAX_PATH_TRACK_POINT = 500
+MAX_PATH_TRACK_POINT = 1000
 
 class PhysObj
 	attr_accessor :world, :saved_pos, :pos, :vel, :accel, :x, :y, :show_info, :angle, :parent_orbit
@@ -39,9 +39,9 @@ class PhysObj
 		end
 	end
 
-	def render_path
+	def render_path(x_offset=0, y_offset=0)
 		@saved_pos.each do |pos|
-			Gosu.draw_rect(pos[0], pos[1], 1, 1, Gosu::Color.argb(0x44_ccccff))
+			Gosu.draw_rect(pos[0] + x_offset, pos[1] + y_offset, 1, 1, Gosu::Color.argb(0x44_ccccff))
 		end
 	end
 
@@ -61,7 +61,7 @@ class PhysObj
 
 			scaled_vec = vec*scale
 
-			pos1 = self.pos + Vector[x_offset, y_offset]
+			pos1 = Vector[x_offset, y_offset] + self.pos + Vector[self.width/2, self.height/2]
 			pos2 = pos1 + scaled_vec
 			
 			x1 = pos1[0]
@@ -74,10 +74,10 @@ class PhysObj
 		end
 	end
 
-	def draw_direction
+	def draw_direction(x_offset=0, y_offset=0)
 		rads = (self.angle * Math::PI) / 180
 		dir_vec = Vector[Math::cos(rads), Math::sin(rads)]
-		self.draw_vector(dir_vec, 25, 0xaf_aaaaff)
+		self.draw_vector(dir_vec, 25, 0xaf_aaaaff, x_offset, y_offset)
 	end
 end
 
