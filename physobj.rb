@@ -2,7 +2,7 @@ GRAV_CONSTANT = 1e+1
 MAX_PATH_TRACK_POINT = 1000
 
 class PhysObj
-	attr_accessor :world, :saved_pos, :pos, :vel, :accel, :x, :y, :show_info, :angle, :parent_orbit
+	attr_accessor :world, :saved_pos, :pos, :vel, :accel, :x, :y, :show_info, :angle, :parent_orbit, :accel_vecs
 	attr_reader :name
 	def initialize(name, world)
 		@name = name
@@ -15,11 +15,21 @@ class PhysObj
 		@show_info = false
 		@angle = 0
 		@parent_orbit = ""
+		@accel_vecs = []
+	end
+
+	private def apply_accel_vecs
+		@accel_vecs.each do |vec|
+			@accel += vec
+		end
+		@accel_vecs = []
 	end
 
 	def tick
 		@x, @y = @pos[0], @pos[1]
 		@angle %= 360
+
+		self.apply_accel_vecs
 		if( !world.freeze ) then
 			if( @accel.magnitude != 0 ) then
 				@vel += @accel
@@ -126,8 +136,7 @@ class Planet < PhysObj
 		if( !self.world.freeze ) then
 			physobjs.each do |obj|
 				grav_vec = self.calculate_gravity_vector(obj)
-				obj.accel = grav_vec
-				obj.parent_orbit = self
+				obj.accel_vecs << grav_vec
 			end
 		end
 	end
