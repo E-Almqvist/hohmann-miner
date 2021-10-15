@@ -154,7 +154,7 @@ class Planet < PhysObj
 	#end
 
 	def render(x_offset=0, y_offset=0)
-		super @radius*3, @radius*3, Gosu::Color.argb(0xff_ffffff)
+		super x_offset, y_offset, Gosu::Color.argb(0xff_ffffff)
 		Gosu.draw_circle(self.pos[0] + x_offset, self.pos[1] + y_offset, @radius, @color, 0, @circle_thickness)
 	end
 

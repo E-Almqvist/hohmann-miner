@@ -117,10 +117,11 @@ cube.show_info = false
 cube.thrust = 0.0075
 cube.pos = Vector[800, 450 + 200]
 cube.vel = Vector[2.5, 0]
+window.controller = cube 
 
 cube2 = PhysCube.new("Beta", window, 8, 8)
 cube2.pos = Vector[800, 450 + 300]
-cube2.vel = Vector[-1.24, 0]
+cube2.vel = Vector[2, 0]
 cube2.show_info = true
 
 sol = Planet.new("Sol", window, 0xff_ffffaa, 1e2, 15, 1)
@@ -130,7 +131,6 @@ planet = Planet.new("Planet", window, 0xff_cccccc, 1e1, 8, 1)
 planet.pos = Vector[800, 450 + 300]
 planet.vel = Vector[-2, 0]
 planet.show_info = true
-window.controller = planet 
 
 sol_orbiters = [cube, cube2, planet]
 sol.orbit(sol_orbiters)
