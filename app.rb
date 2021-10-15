@@ -128,7 +128,7 @@ sol.pos = Vector[800, 450]
 
 planet = Planet.new("Planet", window, 0xff_cccccc, 1e1, 8, 1)
 planet.pos = Vector[800, 450 + 300]
-planet.vel = Vector[-2.5, 0]
+planet.vel = Vector[-2, 0]
 planet.show_info = true
 window.controller = planet 
 
