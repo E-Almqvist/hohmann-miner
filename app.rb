@@ -86,12 +86,12 @@ class Window < Gosu::Window
 	end
 
 	def draw
-		if( @controller != nil && @controller.class == Player ) then
+		if( @controller != nil ) then
 			@camera = Vector[self.width/2, self.height/2] - @controller.pos 
 			@font.draw_text(@controller.debug_string, 0, 32, 1, 1.0, 1.0, Gosu::Color::WHITE)
 		end
 		camx, camy = @camera[0], @camera[1]
-		# camx, camy = 0, 0
+		p @camera
 
 		@font2.draw_text("Frozen: #{@freeze}", 0, 0, 1, 1.0, 1.0, Gosu::Color::WHITE)
 
@@ -127,9 +127,10 @@ sol = Planet.new("Sol", window, 0xff_ffffaa, 1e2, 15, 1)
 sol.pos = Vector[800, 450]
 
 planet = Planet.new("Planet", window, 0xff_cccccc, 1e1, 8, 1)
-planet.pos = Vector[200, 150]
+planet.pos = Vector[800, 450 + 300]
+planet.vel = Vector[-2.5, 0]
 planet.show_info = true
-
+window.controller = planet 
 
 sol_orbiters = [cube, cube2, planet]
 sol.orbit(sol_orbiters)
@@ -141,5 +142,4 @@ window.physobjs << cube
 window.physobjs << cube2
 window.physobjs << planet
 
-window.controller = planet 
 window.show

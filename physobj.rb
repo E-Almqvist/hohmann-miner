@@ -139,10 +139,12 @@ class Planet < PhysObj
 	def orbit(physobjs)
 		if( !self.world.freeze ) then
 			physobjs.each do |obj|
-				grav_vec = self.calculate_gravity_vector(obj)
-				obj.accel_vecs[self.name] = grav_vec
-				obj.apply_accel_vecs
-				obj.parent_orbit = self
+				if( self != obj ) then
+					grav_vec = self.calculate_gravity_vector(obj)
+					obj.accel_vecs[self.name] = grav_vec
+					obj.apply_accel_vecs
+					obj.parent_orbit = self
+				end
 			end
 		end
 	end
