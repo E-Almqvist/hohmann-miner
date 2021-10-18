@@ -53,8 +53,7 @@ class MainMenu < UI
 			self.draw_rect(0, 0, self.width, self.height, 0xff_111015)
 
 			titletext = "Hohmann Miner"
-			titlefont = self.window.fonts[:title]
-			titlewidth = titlefont.text_width(titletext)
+			titlewidth = self.window.fonts[:title].text_width(titletext)
 			self.draw_text(titletext, self.window.fonts[:title], self.width/2 - titlewidth/2, self.height/4)
 		end
 	end
