@@ -28,24 +28,22 @@ class Player < PhysCube
 	end
 
 	def button_down(id)
-		if( id == Gosu::KbSpace ) then
+		case id
+
+		when BIND_TOGGLE_ENGINE
 			@engine = !@engine
-		end
 
-		if( id == Gosu::KbLeft ) then
+		when BIND_TURN_LEFT
 			self.angle -= 20
-		end
 
-		if( id == Gosu::KbRight ) then
+		when BIND_TURN_RIGHT
 			self.angle += 20	
-		end
 
-		if( id == Gosu::KbUp ) then
+		when BIND_INCREASE_THRUST
 			self.thrust += 0.0005
 			self.thrust = self.thrust.round(5)
-		end
 
-		if( id == Gosu::KbDown ) then
+		when BIND_DECREASE_THRUST
 			self.thrust -= 0.0005
 			self.thrust = self.thrust.round(5)
 		end

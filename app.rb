@@ -20,8 +20,8 @@ class Window < Gosu::Window
 		@physobjs = physobjs
 		@planets = planets
 
-		@font = Gosu::Font.new(self, "monospace", 18)
-		@font2 = Gosu::Font.new(self, "monospace", 20)
+		@font = Gosu::Font.new(self, MAIN_FONT, 18)
+		@font2 = Gosu::Font.new(self, MAIN_FONT, 20)
 
 		@fonts = {
 			normal: @font,
