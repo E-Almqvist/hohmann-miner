@@ -3,9 +3,10 @@ require "matrix"
 require "gosu"
 load "gosu_plugin.rb"
 
+load "config.rb"
 load "physobj.rb"
+load "objects.rb"
 load "controller.rb"
-load "planet.rb"
 
 class Window < Gosu::Window
 	attr_accessor :freeze, :caption, :physobjs, :planets, :controller, :camera
@@ -19,8 +20,8 @@ class Window < Gosu::Window
 		@physobjs = physobjs
 		@planets = planets
 
-		@font = Gosu::Font.new(self, Gosu::default_font_name, 18)
-		@font2 = Gosu::Font.new(self, Gosu::default_font_name, 20)
+		@font = Gosu::Font.new(self, "monospace", 18)
+		@font2 = Gosu::Font.new(self, "monospace", 20)
 
 		@fonts = {
 			normal: @font,
@@ -44,7 +45,7 @@ class Window < Gosu::Window
 	def button_down(id)
 		super id
 
-		if( id == Gosu::KbEscape ) then
+		if( id == BIND_PAUSE ) then
 			@freeze = !@freeze
 		end
 
@@ -119,8 +120,8 @@ window = Window.new("Physics!", 1600, 900)
 cube = Player.new("Alpha", window, 8, 8)
 cube.show_info = false 
 cube.thrust = 0.0075
-cube.pos = Vector[800, 450 + 200]
-cube.vel = Vector[2.5, 0]
+cube.pos = Vector[800, 450 + 500]
+cube.vel = Vector[1, 0]
 window.controller = cube 
 
 cube2 = PhysCube.new("Beta", window, 8, 8)
