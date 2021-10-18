@@ -1,11 +1,14 @@
 class UI
 	attr_accessor :x, :y
-	attr_reader :width, :height, :zindex, :uiscale
-	def initialize(x, y, width, height, zindex=1, uiscale=1)
+	attr_reader :window, :width, :height, :zindex, :uiscale
+	def initialize(window, x, y, width, height, zindex=1, uiscale=1)
+		@window = window
 		@x, @y = x, y
 		@width, @height = width, height
 		@zindex = zindex
 		@uiscale = uiscale
+
+		@window.ui << self
 	end
 
 	private def pos
@@ -25,15 +28,29 @@ class UI
 	end
 
 	def draw_rect(x, y, width, height, color=0xff_ffffff, z=0, mode=:default)
-		v1 = Vector[0, 0, color] + self.pos + Vector[x, y]
-		v2 = Vector[width, 0, color] + self.pos + Vector[x, y]
-		v3 = Vector[0, height, color] + self.pos + Vector[x, y]
-		v4 = Vector[width, height, color] + self.pos + Vector[x, y]
+		v1 = Vector[x, y, color] + self.pos 
+		v2 = Vector[width + x, y, color] + self.pos 
+		v3 = Vector[x, height + y, color] + self.pos 
+		v4 = Vector[width + x, height + y, color] + self.pos 
 		self.draw_quad(v1, v2, v3, v4, z, mode)
 	end
 
 	def draw_circle(x, y, r, c, z = 0, thickness = 1, sides = nil, mode = :default)
-		Gosu::draw_circle(x, y, r, c z, thickness, sides, mode)
+		Gosu::draw_circle(x, y, r, c, z, thickness, sides, mode)
+	end
+end
+
+class MainMenu < UI
+	attr_accessor :show
+	def initialize(window, show=false)
+		super window, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 99
+		@show = show
 	end
 
+	def render
+		if( @show ) then
+			self.draw_rect(0, 0, self.width, self.height, 0x99_aaaaaa)
+			self.draw_text("Hohmann Miner", self.window.fonts[:big], self.width/2, self.height/2)
+		end
+	end
 end

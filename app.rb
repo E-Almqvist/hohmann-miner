@@ -3,13 +3,14 @@ require "matrix"
 require "gosu"
 load "gosu_plugin.rb"
 
+load "ui.rb"
 load "config.rb"
 load "physobj.rb"
 load "objects.rb"
 load "controller.rb"
 
 class Window < Gosu::Window
-	attr_accessor :freeze, :caption, :physobjs, :planets, :controller, :camera
+	attr_accessor :freeze, :caption, :physobjs, :planets, :controller, :camera, :ui
 	attr_reader :width, :height, :fonts
 
 	def initialize(title, width, height, physobjs = [], planets = [])
@@ -28,10 +29,44 @@ class Window < Gosu::Window
 			big: @font2
 		}
 
-		@freeze = false
+		@freeze = true 
 		@controller = nil
 
 		@camera = Vector[0, 0]
+		@ui = []
+	end
+
+	def start_game
+		cube = Player.new("Alpha", self, 8, 8)
+		cube.show_info = false 
+		cube.thrust = 0.0075
+		cube.pos = Vector[800, 450 + 500]
+		cube.vel = Vector[1, 0]
+		self.controller = cube 
+
+		cube2 = PhysCube.new("Beta", self, 8, 8)
+		cube2.pos = Vector[800, 450 + 300]
+		cube2.vel = Vector[2, 0]
+		cube2.show_info = true
+
+		sol = Planet.new("Sol", self, 0xff_ffffaa, 1e2, 15, 1)
+		sol.pos = Vector[800, 450]
+
+		planet = Planet.new("Planet", self, 0xff_cccccc, 1e1, 8, 1)
+		planet.pos = Vector[800, 450 + 300]
+		planet.vel = Vector[-2, 0]
+		planet.show_info = true
+
+		sol_orbiters = [cube, cube2, planet]
+		sol.orbit(sol_orbiters)
+
+		self.planets << sol 
+		self.planets << planet
+		self.planets << cube
+
+		self.physobjs << cube
+		self.physobjs << cube2
+		self.physobjs << planet
 	end
 
 	def button_up(id)
@@ -91,12 +126,15 @@ class Window < Gosu::Window
 	end
 
 	def draw
+		@ui.each do |u|
+			u.render
+		end
+
 		if( @controller != nil ) then
 			@camera = Vector[self.width/2, self.height/2] - @controller.pos 
 			@font.draw_text(@controller.debug_string, 0, 32, 1, 1.0, 1.0, Gosu::Color::WHITE)
 		end
 		camx, camy = @camera[0], @camera[1]
-		p @camera
 
 		@font2.draw_text("Frozen: #{@freeze}", 0, 0, 1, 1.0, 1.0, Gosu::Color::WHITE)
 
@@ -115,36 +153,9 @@ class Window < Gosu::Window
 end
 
 
-window = Window.new("Physics!", 1600, 900)
+window = Window.new("Hohmann Miner", WINDOW_WIDTH, WINDOW_HEIGHT)
+window.fullscreen = WINDOW_FULLSCREEN
 
-cube = Player.new("Alpha", window, 8, 8)
-cube.show_info = false 
-cube.thrust = 0.0075
-cube.pos = Vector[800, 450 + 500]
-cube.vel = Vector[1, 0]
-window.controller = cube 
-
-cube2 = PhysCube.new("Beta", window, 8, 8)
-cube2.pos = Vector[800, 450 + 300]
-cube2.vel = Vector[2, 0]
-cube2.show_info = true
-
-sol = Planet.new("Sol", window, 0xff_ffffaa, 1e2, 15, 1)
-sol.pos = Vector[800, 450]
-
-planet = Planet.new("Planet", window, 0xff_cccccc, 1e1, 8, 1)
-planet.pos = Vector[800, 450 + 300]
-planet.vel = Vector[-2, 0]
-planet.show_info = true
-
-sol_orbiters = [cube, cube2, planet]
-sol.orbit(sol_orbiters)
-
-window.planets << sol 
-window.planets << planet
-
-window.physobjs << cube
-window.physobjs << cube2
-window.physobjs << planet
+mainmenu = MainMenu.new(window, true) 
 
 window.show
