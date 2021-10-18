@@ -68,16 +68,18 @@ class Window < Gosu::Window
 # 	end
 
 	def update
-		@physobjs.each do |obj| 
-			obj.physics 
-		end
+		if( !@freeze ) then
+			@physobjs.each do |obj| 
+				obj.physics 
+			end
 
-		@planets.each do |planet|
-			orbiters = []
-			orbiters += @physobjs
-			orbiters += @planets
-			orbiters.delete(planet)
-			planet.orbit(planets)
+			@planets.each do |planet|
+				orbiters = []
+				orbiters += @physobjs
+				orbiters += @planets
+				orbiters.delete(planet)
+				planet.orbit(planets)
+			end
 		end
 	end
 
