@@ -30,19 +30,17 @@ class PhysObj
 		@x, @y = @pos[0], @pos[1]
 		@angle %= 360
 
-		if( !world.freeze ) then
-			if( @accel.magnitude != 0 ) then
-				@vel += @accel
-			end
+		if( @accel.magnitude != 0 ) then
+			@vel += @accel
+		end
 
-			if( @vel.magnitude != 0 ) then
-				@pos += @vel
-			end
-			@saved_pos << @pos
+		if( @vel.magnitude != 0 ) then
+			@pos += @vel
+		end
+		@saved_pos << @pos
 
-			if(@saved_pos.length > MAX_PATH_TRACK_POINT) then
-				@saved_pos = @saved_pos[1..-1]
-			end
+		if(@saved_pos.length > MAX_PATH_TRACK_POINT) then
+			@saved_pos = @saved_pos[1..-1]
 		end
 	end
 
@@ -137,14 +135,12 @@ class Planet < PhysObj
 	end
 
 	def orbit(physobjs)
-		if( !self.world.freeze ) then
-			physobjs.each do |obj|
-				if( self != obj ) then
-					grav_vec = self.calculate_gravity_vector(obj)
-					obj.accel_vecs[self.name] = grav_vec
-					obj.apply_accel_vecs
-					obj.parent_orbit = self
-				end
+		physobjs.each do |obj|
+			if( self != obj ) then
+				grav_vec = self.calculate_gravity_vector(obj)
+				obj.accel_vecs[self.name] = grav_vec
+				obj.apply_accel_vecs
+				obj.parent_orbit = self
 			end
 		end
 	end
