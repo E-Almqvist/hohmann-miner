@@ -23,10 +23,12 @@ class Window < Gosu::Window
 
 		@font = Gosu::Font.new(self, MAIN_FONT, 18)
 		@font2 = Gosu::Font.new(self, MAIN_FONT, 20)
+		@font_title = Gosu::Font.new(self, MAIN_FONT, 64)
 
 		@fonts = {
 			normal: @font,
-			big: @font2
+			big: @font2,
+			title: @font_title
 		}
 
 		@freeze = true 

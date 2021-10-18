@@ -19,7 +19,7 @@ class UI
 		return Gosu::Color.argb(color)
 	end
 
-	def draw_text(string, font, x, y, z=0, scale_x=1, scale_y=1, color=0xff_ffffff)
+	def draw_text(string, font, x, y, z=0, color=0xff_ffffff, scale_x=1, scale_y=1)
 		font.draw_text(string, self.x + x, self.y + y, self.zindex + z, scale_x, scale_y, color)
 	end
 
@@ -28,10 +28,11 @@ class UI
 	end
 
 	def draw_rect(x, y, width, height, color=0xff_ffffff, z=0, mode=:default)
-		v1 = Vector[x, y, color] + self.pos 
-		v2 = Vector[width + x, y, color] + self.pos 
-		v3 = Vector[x, height + y, color] + self.pos 
-		v4 = Vector[width + x, height + y, color] + self.pos 
+		xx, yy = x + self.pos[0], y + self.pos[1]
+		v1 = Vector[xx, yy, color] 
+		v2 = Vector[width + xx, yy, color] 
+		v3 = Vector[xx, height + yy, color] 
+		v4 = Vector[width + xx, height + yy, color] 
 		self.draw_quad(v1, v2, v3, v4, z, mode)
 	end
 
@@ -49,8 +50,12 @@ class MainMenu < UI
 
 	def render
 		if( @show ) then
-			self.draw_rect(0, 0, self.width, self.height, 0x99_aaaaaa)
-			self.draw_text("Hohmann Miner", self.window.fonts[:big], self.width/2, self.height/2)
+			self.draw_rect(0, 0, self.width, self.height, 0xff_111015)
+
+			titletext = "Hohmann Miner"
+			titlefont = self.window.fonts[:title]
+			titlewidth = titlefont.text_width(titletext)
+			self.draw_text(titletext, self.window.fonts[:title], self.width/2 - titlewidth/2, self.height/4)
 		end
 	end
 end
