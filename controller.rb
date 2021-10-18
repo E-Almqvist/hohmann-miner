@@ -16,7 +16,7 @@ class Player < PhysCube
 	def tick
 		super
 
-		if( @engine && !self.world.freeze ) then
+		if( @engine ) then
 			self.vel += self.get_angle_vec * @thrust
 		end
 	end

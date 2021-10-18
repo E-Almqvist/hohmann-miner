@@ -54,21 +54,21 @@ class Window < Gosu::Window
 		end
 	end
 
-# 	def button_up?(id)
-# 		super id
-# 
-# 		if( @controller != nil && @controller.class == Player ) then
-# 			@controller.button_up?(id)
-# 		end
-# 	end
-# 
-# 	def button_down?(id)
-# 		super id
-# 
-# 		if( @controller != nil && @controller.class == Player ) then
-# 			@controller.button_down?(id)
-# 		end
-# 	end
+	def button_up?(id)
+		super id
+
+		if( @controller != nil && @controller.class == Player ) then
+			@controller.button_up?(id)
+		end
+	end
+
+	def button_down?(id)
+		super id
+
+		if( @controller != nil && @controller.class == Player ) then
+			@controller.button_down?(id)
+		end
+	end
 
 	def update
 		if( !@freeze ) then
