@@ -8,6 +8,10 @@ class UI
 		@uiscale = uiscale
 	end
 
+	private def pos
+		Vector[@x, @y]
+	end
+
 	def color(color=0xff_ffffff)
 		return Gosu::Color.argb(color)
 	end
@@ -21,11 +25,15 @@ class UI
 	end
 
 	def draw_rect(x, y, width, height, color=0xff_ffffff, z=0, mode=:default)
-		v1 = Vector[0, 0, color]
-		v2 = Vector[width, 0, color]
-		v3 = Vector[0, height, color]
-		v4 = Vector[width, height, color]
+		v1 = Vector[0, 0, color] + self.pos + Vector[x, y]
+		v2 = Vector[width, 0, color] + self.pos + Vector[x, y]
+		v3 = Vector[0, height, color] + self.pos + Vector[x, y]
+		v4 = Vector[width, height, color] + self.pos + Vector[x, y]
 		self.draw_quad(v1, v2, v3, v4, z, mode)
+	end
+
+	def draw_circle(x, y, r, c, z = 0, thickness = 1, sides = nil, mode = :default)
+		Gosu::draw_circle(x, y, r, c z, thickness, sides, mode)
 	end
 
 end
