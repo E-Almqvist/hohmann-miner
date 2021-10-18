@@ -2,8 +2,10 @@
 require "matrix"
 require "gosu"
 load "gosu_plugin.rb"
+
 load "physobj.rb"
 load "controller.rb"
+load "planet.rb"
 
 class Window < Gosu::Window
 	attr_accessor :freeze, :caption, :physobjs, :planets, :controller, :camera
