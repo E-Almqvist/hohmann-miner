@@ -20,7 +20,7 @@ class UI
 	end
 
 	def draw_text(string, font, x, y, z=0, color=0xff_ffffff, scale_x=1, scale_y=1)
-		font.draw_text(string, self.x + x, self.y + y, self.zindex + z, scale_x, scale_y, color)
+		font.draw_text(string, self.x + x, self.y + y, self.zindex + z, scale_x, scale_y, self.color(color))
 	end
 
 	def draw_quad(vertex1, vertex2, vertex3, vertex4, z=0, mode=:default)
@@ -41,6 +41,51 @@ class UI
 	end
 end
 
+class Button < UI
+	attr_accessor :selected, :menu, :colors
+	attr_reader :text, :width, :height, :text_width, :text_height, :font, :zindex
+	def initialize(window, menu, text, font, x=0, y=0, padding=8, zindex=0)
+		super window, x, y, width, height, zindex, menu.uiscale
+		@menu = menu
+		@font = font
+		@zindex = zindex
+		
+		@text = text
+		@text_width = @font.text_width(@text)
+		@text_height = @font.height
+
+		@width = @text_width + padding
+		@height = @text_height + padding
+
+		@selected = false
+		@colors = {
+			text: {
+				selected: 0xff_ffeeee,
+				default: 0xff_ff0000
+			},
+			background: {
+				selected: 0xcc_ffffff,
+				default: 0xbb_ff0000
+			}
+		}
+	end
+
+	def hover?
+		inx = window.mouse_x >= self.x && window.mouse_x <= self.x + self.width
+		iny = window.mouse_y >= self.y && window.mouse_y <= self.y + self.height
+		p [inx, iny]
+
+		self.selected = inx && iny
+	end
+
+	def render
+		sel = self.hover? ? :selected : :default
+		# self.draw_rect(self.x, self.y, self.width, self.height, self.colors[:background][sel])
+
+		self.draw_text(self.text, self.font, self.width/2 - self.text_width/2, self.height/2 - self.text_height/2, self.colors[:text][sel])
+	end
+end
+
 class MainMenu < UI
 	attr_accessor :show
 	def initialize(window, show=false)
@@ -50,11 +95,19 @@ class MainMenu < UI
 
 	def render
 		if( @show ) then
-			self.draw_rect(0, 0, self.width, self.height, 0xff_111015)
+			self.draw_rect(0, 0, self.width, self.height, 0xaa_111015)
 
 			titletext = "Hohmann Miner"
 			titlewidth = self.window.fonts[:title].text_width(titletext)
 			self.draw_text(titletext, self.window.fonts[:title], self.width/2 - titlewidth/2, self.height/4)
+
+			playbtn = Button.new(self.window, self, "Play", self.window.fonts[:button])
+			#playbtn.x, playbtn.y = self.width/2 - playbtn.width/2, self.height/2 - playbtn.height/2
+			playbtn.render
+
+# 			quitbtn = Button.new(self.window, self, "Quit", self.window.fonts[:button])
+# 			quitbtn.x, quitbtn.y = self.width/2 - quitbtn.width/2, quitbtn.height + playbtn.y + 16
+# 			quitbtn.render
 		end
 	end
 end

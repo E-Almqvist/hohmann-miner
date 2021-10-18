@@ -1,7 +1,7 @@
 # UI
 WINDOW_WIDTH = 1600
 WINDOW_HEIGHT = 900
-WINDOW_FULLSCREEN = true 
+WINDOW_FULLSCREEN = false
 MAIN_FONT = "monospace"
 
 # Keybinds
