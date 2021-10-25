@@ -80,7 +80,7 @@ class Button < UI
 
 	def render
 		sel = self.hover? ? :selected : :default
-		# self.draw_rect(self.x, self.y, self.width, self.height, self.colors[:background][sel])
+		self.draw_rect(self.x, self.y, self.width, self.height, self.colors[:background][sel])
 
 		self.draw_text(self.text, self.font, self.width/2 - self.text_width/2, self.height/2 - self.text_height/2, self.colors[:text][sel])
 	end
@@ -102,12 +102,12 @@ class MainMenu < UI
 			self.draw_text(titletext, self.window.fonts[:title], self.width/2 - titlewidth/2, self.height/4)
 
 			playbtn = Button.new(self.window, self, "Play", self.window.fonts[:button])
-			#playbtn.x, playbtn.y = self.width/2 - playbtn.width/2, self.height/2 - playbtn.height/2
+			playbtn.x, playbtn.y = self.width/2 - playbtn.width/2, self.height/2 - playbtn.height/2
 			playbtn.render
 
-# 			quitbtn = Button.new(self.window, self, "Quit", self.window.fonts[:button])
-# 			quitbtn.x, quitbtn.y = self.width/2 - quitbtn.width/2, quitbtn.height + playbtn.y + 16
-# 			quitbtn.render
+ 			quitbtn = Button.new(self.window, self, "Quit", self.window.fonts[:button])
+ 			quitbtn.x, quitbtn.y = self.width/2 - quitbtn.width/2, quitbtn.height + playbtn.y + 16
+ 			quitbtn.render
 		end
 	end
 end

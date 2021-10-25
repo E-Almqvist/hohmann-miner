@@ -10,16 +10,17 @@ load "objects.rb"
 load "controller.rb"
 
 class Window < Gosu::Window
-	attr_accessor :freeze, :caption, :physobjs, :planets, :controller, :camera, :ui
+	attr_accessor :caption, 
 	attr_reader :width, :height, :fonts
 
-	def initialize(title, width, height, physobjs = [], planets = [])
+	def initialize(title, width, height, universe)
 		super width, height
 		@width, @height = width, height
 		self.caption = "#{title}| #{width}x#{height}"
 
-		@physobjs = physobjs
-		@planets = planets
+		#@physobjs = physobjs
+		#@planets = planets
+		@universe = universe
 
 		@font = Gosu::Font.new(self, MAIN_FONT, 18)
 		@font2 = Gosu::Font.new(self, MAIN_FONT, 20)
@@ -33,20 +34,15 @@ class Window < Gosu::Window
 			button: @font_button
 		}
 
-		@freeze = true 
-		@controller = nil
-
-		@camera = Vector[0, 0]
-		@ui = []
 	end
 
 	def start_game
-		cube = Player.new("Alpha", self, 8, 8)
-		cube.show_info = false 
-		cube.thrust = 0.0075
-		cube.pos = Vector[800, 450 + 500]
-		cube.vel = Vector[1, 0]
-		self.controller = cube 
+		ply = Player.new("Player", self, 8, 8)
+		ply.show_info = false 
+		ply.thrust = 0.0075
+		ply.pos = Vector[800, 450 + 500]
+		ply.vel = Vector[1, 0]
+		self.controller = ply
 
 		cube2 = PhysCube.new("Beta", self, 8, 8)
 		cube2.pos = Vector[800, 450 + 300]
@@ -66,9 +62,8 @@ class Window < Gosu::Window
 
 		self.planets << sol 
 		self.planets << planet
-		self.planets << cube
 
-		self.physobjs << cube
+		self.physobjs << ply 
 		self.physobjs << cube2
 		self.physobjs << planet
 	end
