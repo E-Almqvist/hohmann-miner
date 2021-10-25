@@ -1,26 +1,31 @@
 #!/usr/bin/ruby -w
+
+
 require "matrix"
 require "gosu"
-load "gosu_plugin.rb"
+require_relative "lib/gosu_plugin.rb"
 
-load "ui.rb"
-load "config.rb"
-load "physobj.rb"
-load "objects.rb"
-load "controller.rb"
+require_relative "config.rb"
+
+require_relative "lib/ui.rb"
+require_relative "lib/physobj.rb"
+require_relative "lib/objects.rb"
+require_relative "lib/controller.rb"
+require_relative "lib/world.rb"
 
 class Window < Gosu::Window
-	attr_accessor :caption, 
+	attr_accessor :caption, :ui, :world 
 	attr_reader :width, :height, :fonts
 
-	def initialize(title, width, height, universe)
+	def initialize(title, width, height)
 		super width, height
 		@width, @height = width, height
 		self.caption = "#{title}| #{width}x#{height}"
 
 		#@physobjs = physobjs
 		#@planets = planets
-		@universe = universe
+		@world = nil 
+		@ui = []
 
 		@font = Gosu::Font.new(self, MAIN_FONT, 18)
 		@font2 = Gosu::Font.new(self, MAIN_FONT, 20)
@@ -37,12 +42,14 @@ class Window < Gosu::Window
 	end
 
 	def start_game
+		@world = World.new(WORLD_SEED, self)
+
 		ply = Player.new("Player", self, 8, 8)
 		ply.show_info = false 
 		ply.thrust = 0.0075
 		ply.pos = Vector[800, 450 + 500]
 		ply.vel = Vector[1, 0]
-		self.controller = ply
+		@world.controller = ply
 
 		cube2 = PhysCube.new("Beta", self, 8, 8)
 		cube2.pos = Vector[800, 450 + 300]
@@ -71,8 +78,8 @@ class Window < Gosu::Window
 	def button_up(id)
 		super id
 
-		if( @controller != nil && @controller.class == Player ) then
-			@controller.button_up(id)
+		if( @world.controller != nil && @world.controller.class == Player ) then
+			@world.controller.button_up(id)
 		end
 	end
 
@@ -83,40 +90,30 @@ class Window < Gosu::Window
 			@freeze = !@freeze
 		end
 
-		if( @controller != nil && @controller.class == Player ) then
-			@controller.button_down(id)
+		if( @world.controller != nil && @world.controller.class == Player ) then
+			@world.controller.button_down(id)
 		end
 	end
 
 	def button_up?(id)
 		super id
 
-		if( @controller != nil && @controller.class == Player ) then
-			@controller.button_up?(id)
+		if( @world.controller != nil && @world.controller.class == Player ) then
+			@world.controller.button_up?(id)
 		end
 	end
 
 	def button_down?(id)
 		super id
 
-		if( @controller != nil && @controller.class == Player ) then
-			@controller.button_down?(id)
+		if( @world.controller != nil && @world.controller.class == Player ) then
+			@world.controller.button_down?(id)
 		end
 	end
 
 	def update
-		if( !@freeze ) then
-			@physobjs.each do |obj| 
-				obj.physics 
-			end
-
-			@planets.each do |planet|
-				orbiters = []
-				orbiters += @physobjs
-				orbiters += @planets
-				orbiters.delete(planet)
-				planet.orbit(planets)
-			end
+		if( @world ) then
+			@world.tick
 		end
 	end
 
@@ -129,11 +126,11 @@ class Window < Gosu::Window
 			u.render
 		end
 
-		if( @controller != nil ) then
-			@camera = Vector[self.width/2, self.height/2] - @controller.pos 
-			@font.draw_text(@controller.debug_string, 0, 32, 1, 1.0, 1.0, Gosu::Color::WHITE)
+		if( @world.controller != nil ) then
+			@world.camera = Vector[self.width/2, self.height/2] - @world.controller.pos 
+			@font.draw_text(@world.controller.debug_string, 0, 32, 1, 1.0, 1.0, Gosu::Color::WHITE)
 		end
-		camx, camy = @camera[0], @camera[1]
+		camx, camy = @world.camera[0], @world.camera[1]
 
 		@font2.draw_text("Frozen: #{@freeze}", 0, 0, 1, 1.0, 1.0, Gosu::Color::WHITE)
 
