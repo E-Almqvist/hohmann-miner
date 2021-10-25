@@ -84,7 +84,7 @@ class Button < UI
 		# TODO: make a method pointer for button presses etc
 	end
 
-	def onclick(id)
+	def onclick(id, *args, **kwargs)
 		self.method_ptr.call(id, *args, **kwargs)
 	end
 
