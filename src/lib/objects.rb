@@ -35,7 +35,7 @@ class Planet < PhysObj
 		end
 	end
 
-	# def debug_string
+	# def inspect
 	#	return "\n#{self.name}\nPos: #{self.pos.round(4)}\nMass: #{self.mass.round(4)}\nRadius: #{self.radius.round(4)} p\nGravity: #{(self.mass*GRAV_CONSTANT).round(2)} p/r^2"
 	#end
 

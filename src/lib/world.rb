@@ -8,8 +8,6 @@ class World
 		@planets = []
 
 		@freeze = true 
-		@controller = nil
-
 		@camera = Vector[0, 0]
 	end
 
@@ -23,7 +21,7 @@ class World
 				orbiters = []
 				orbiters += @physobjs # append each element
 				orbiters += @planets
-				orbiters.delete(planet)
+				orbiters.delete(planet) # dont orbit yourself, it is bad for your health.
 				planet.orbit(planets)
 			end
 		end
@@ -32,7 +30,7 @@ class World
 	def render
 		if( @controller != nil ) then
 			self.camera = Vector[self.width/2, self.height/2] - self.controller.pos 
-			@font.draw_text(self.controller.debug_string, 0, 32, 1, 1.0, 1.0, Gosu::Color::WHITE)
+			@font.draw_text(self.controller.inspect, 0, 32, 1, 1.0, 1.0, Gosu::Color::WHITE)
 		end
 		camx, camy = self.camera[0], self.camera[1]
 

@@ -21,15 +21,11 @@ class Window < Gosu::Window
 		@width, @height = width, height
 		self.caption = "#{title}| #{width}x#{height}"
 
-		@world = nil 
 		@ui = []
-		@mainmenu = nil
-
-
 		@fonts = {
-			normal: Gosu::Font.new(self, MAIN_FONT, 18)
-			big: Gosu::Font.new(self, MAIN_FONT, 20)
-			title: Gosu::Font.new(self, MAIN_FONT, 64)
+			normal: Gosu::Font.new(self, MAIN_FONT, 18),
+			big: Gosu::Font.new(self, MAIN_FONT, 20),
+			title: Gosu::Font.new(self, MAIN_FONT, 64),
 			button: Gosu::Font.new(self, MAIN_FONT, 48)
 		}
 	end

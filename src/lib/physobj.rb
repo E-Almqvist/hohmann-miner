@@ -50,13 +50,13 @@ class PhysObj
 		end
 	end
 
-	def debug_string
+	def inspect
 		return "\n#{self.name} - #{self.parent_orbit.name}\nVel: #{self.vel.magnitude.round(1)} #{self.vel.round(4)}\nAccel: #{self.accel.magnitude.round(4)} #{self.accel.round(4)}\nPos: #{self.pos.round(4)}\nAngle: #{self.angle.round(1)} deg\n"
 	end
 
 	def render(x_offset=0, y_offset=0, color=Gosu::Color.argb(0xaa_2222ff))
 		if( @show_info ) then
-			self.world.fonts[:normal].draw_text(self.debug_string, self.pos[0] + x_offset, self.pos[1] + y_offset, 1, 1.0, 1.0, color)
+			self.world.fonts[:normal].draw_text(self.inspect, self.pos[0] + x_offset, self.pos[1] + y_offset, 1, 1.0, 1.0, color)
 		end
 	end
 
