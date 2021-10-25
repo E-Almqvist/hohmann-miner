@@ -21,7 +21,7 @@ class World
 
 			@planets.each do |planet|
 				orbiters = []
-				orbiters += @physobjs
+				orbiters += @physobjs # append each element
 				orbiters += @planets
 				orbiters.delete(planet)
 				planet.orbit(planets)

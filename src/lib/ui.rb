@@ -64,8 +64,8 @@ class Button < UI
 				default: 0xff_ff0000
 			},
 			background: {
-				selected: 0xcc_ffffff,
-				default: 0xbb_ff0000
+				selected: 0xcc_cccccc,
+				default: 0xaa_aaaaaa
 			}
 		}
 	end
@@ -73,14 +73,13 @@ class Button < UI
 	def hover?
 		inx = window.mouse_x >= self.x && window.mouse_x <= self.x + self.width
 		iny = window.mouse_y >= self.y && window.mouse_y <= self.y + self.height
-		p [inx, iny]
 
 		self.selected = inx && iny
 	end
 
 	def render
 		sel = self.hover? ? :selected : :default
-		self.draw_rect(self.x, self.y, self.width, self.height, self.colors[:background][sel])
+		self.draw_rect(0, 0, self.width, self.height, self.colors[:background][sel])
 
 		self.draw_text(self.text, self.font, self.width/2 - self.text_width/2, self.height/2 - self.text_height/2, self.colors[:text][sel])
 	end

@@ -14,7 +14,7 @@ require_relative "lib/controller.rb"
 require_relative "lib/world.rb"
 
 class Window < Gosu::Window
-	attr_accessor :caption, :ui, :world 
+	attr_accessor :caption, :ui, :world, :mainmenu
 	attr_reader :width, :height, :fonts
 
 	def initialize(title, width, height)
@@ -22,10 +22,9 @@ class Window < Gosu::Window
 		@width, @height = width, height
 		self.caption = "#{title}| #{width}x#{height}"
 
-		#@physobjs = physobjs
-		#@planets = planets
 		@world = nil 
 		@ui = []
+		@mainmenu = nil
 
 		@font = Gosu::Font.new(self, MAIN_FONT, 18)
 		@font2 = Gosu::Font.new(self, MAIN_FONT, 20)
@@ -73,6 +72,9 @@ class Window < Gosu::Window
 		@world.physobjs << ply 
 		@world.physobjs << cube2
 		@world.physobjs << planet
+
+		@world.freeze = true
+		self.mainmenu.show = false
 	end
 
 	def button_up(id)
@@ -132,6 +134,6 @@ end
 window = Window.new("Hohmann Miner", WINDOW_WIDTH, WINDOW_HEIGHT)
 window.fullscreen = WINDOW_FULLSCREEN
 
-mainmenu = MainMenu.new(window, true) 
+window.mainmenu = MainMenu.new(window, true) 
 
 window.show
