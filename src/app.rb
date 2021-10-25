@@ -67,18 +67,18 @@ class Window < Gosu::Window
 		sol_orbiters = [cube, cube2, planet]
 		sol.orbit(sol_orbiters)
 
-		self.planets << sol 
-		self.planets << planet
+		@world.planets << sol 
+		@world.planets << planet
 
-		self.physobjs << ply 
-		self.physobjs << cube2
-		self.physobjs << planet
+		@world.physobjs << ply 
+		@world.physobjs << cube2
+		@world.physobjs << planet
 	end
 
 	def button_up(id)
 		super id
 
-		if( @world.controller != nil && @world.controller.class == Player ) then
+		if( @world && @world.controller ) then
 			@world.controller.button_up(id)
 		end
 	end
@@ -90,7 +90,7 @@ class Window < Gosu::Window
 			@freeze = !@freeze
 		end
 
-		if( @world.controller != nil && @world.controller.class == Player ) then
+		if( @world && @world.controller ) then
 			@world.controller.button_down(id)
 		end
 	end
@@ -98,7 +98,7 @@ class Window < Gosu::Window
 	def button_up?(id)
 		super id
 
-		if( @world.controller != nil && @world.controller.class == Player ) then
+		if( @world && @world.controller ) then
 			@world.controller.button_up?(id)
 		end
 	end
@@ -106,7 +106,7 @@ class Window < Gosu::Window
 	def button_down?(id)
 		super id
 
-		if( @world.controller != nil && @world.controller.class == Player ) then
+		if( @world && @world.controller ) then
 			@world.controller.button_down?(id)
 		end
 	end
@@ -117,33 +117,13 @@ class Window < Gosu::Window
 		end
 	end
 
-	private def generate_debug_string(obj)
-		return "\n#{obj.name}\nVel: #{obj.vel.round(4)} (#{obj.vel.magnitude.round(1)})\nAccel: #{obj.accel.round(4)} (#{obj.accel.magnitude.round(4)})\nPos: #{obj.pos.round(4)}\n"
-	end
-
 	def draw
 		@ui.each do |u|
 			u.render
 		end
 
-		if( @world.controller != nil ) then
-			@world.camera = Vector[self.width/2, self.height/2] - @world.controller.pos 
-			@font.draw_text(@world.controller.debug_string, 0, 32, 1, 1.0, 1.0, Gosu::Color::WHITE)
-		end
-		camx, camy = @world.camera[0], @world.camera[1]
-
-		@font2.draw_text("Frozen: #{@freeze}", 0, 0, 1, 1.0, 1.0, Gosu::Color::WHITE)
-
-		@physobjs.each do |obj| 
-			obj.render(camx, camy)
-			obj.draw_vector(obj.vel, 10, 0xff_ffaaaaa, camx, camy)
-			obj.draw_vector(obj.accel, 500, 0xff_aaffaa, camx, camy)
-			obj.render_path(camx, camy)
-			obj.draw_direction(camx, camy)
-		end
-
-		@planets.each do |planet|
-			planet.render(camx, camy)
+		if( @world ) then
+			@world.render
 		end
 	end
 end
