@@ -25,18 +25,13 @@ class Window < Gosu::Window
 		@ui = []
 		@mainmenu = nil
 
-		@font = Gosu::Font.new(self, MAIN_FONT, 18)
-		@font2 = Gosu::Font.new(self, MAIN_FONT, 20)
-		@font_title = Gosu::Font.new(self, MAIN_FONT, 64)
-		@font_button = Gosu::Font.new(self, MAIN_FONT, 48)
 
 		@fonts = {
-			normal: @font,
-			big: @font2,
-			title: @font_title,
-			button: @font_button
+			normal: Gosu::Font.new(self, MAIN_FONT, 18)
+			big: Gosu::Font.new(self, MAIN_FONT, 20)
+			title: Gosu::Font.new(self, MAIN_FONT, 64)
+			button: Gosu::Font.new(self, MAIN_FONT, 48)
 		}
-
 	end
 
 	def start_game
