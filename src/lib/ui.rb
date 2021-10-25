@@ -74,8 +74,18 @@ class Button < UI
 	def hover?
 		inx = window.mouse_x >= self.x && window.mouse_x <= self.x + self.width + self.padding[:x]
 		iny = window.mouse_y >= self.y && window.mouse_y <= self.y + self.height + self.padding[:y]
+		# doing `n in (a..b).to....` is too slow
+		# hence the ugly syntax above
 
 		self.selected = inx && iny
+	end
+
+	def method_ptr=(self, new_ptr)
+		# TODO: make a method pointer for button presses etc
+	end
+
+	def onclick(id)
+		self.method_ptr.call(id, *args, **kwargs)
 	end
 
 	def render
