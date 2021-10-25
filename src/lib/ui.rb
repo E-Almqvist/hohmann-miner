@@ -43,8 +43,8 @@ end
 
 class Button < UI
 	attr_accessor :selected, :menu, :colors
-	attr_reader :text, :width, :height, :text_width, :text_height, :font, :zindex
-	def initialize(window, menu, text, font, x=0, y=0, padding=8, zindex=0)
+	attr_reader :text, :width, :height, :text_width, :text_height, :font, :zindex, :padding
+	def initialize(window, menu, text, font, x=0, y=0, padding={x:32, y:2}, zindex=0)
 		super window, x, y, width, height, zindex, menu.uiscale
 		@menu = menu
 		@font = font
@@ -54,8 +54,9 @@ class Button < UI
 		@text_width = @font.text_width(@text)
 		@text_height = @font.height
 
-		@width = @text_width + padding
-		@height = @text_height + padding
+		@padding = padding
+		@width = @text_width + padding[:x]
+		@height = @text_height + padding[:y]
 
 		@selected = false
 		@colors = {
@@ -71,8 +72,8 @@ class Button < UI
 	end
 
 	def hover?
-		inx = window.mouse_x >= self.x && window.mouse_x <= self.x + self.width
-		iny = window.mouse_y >= self.y && window.mouse_y <= self.y + self.height
+		inx = window.mouse_x >= self.x && window.mouse_x <= self.x + self.width + self.padding[:x]
+		iny = window.mouse_y >= self.y && window.mouse_y <= self.y + self.height + self.padding[:y]
 
 		self.selected = inx && iny
 	end

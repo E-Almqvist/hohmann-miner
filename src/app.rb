@@ -1,6 +1,5 @@
 #!/usr/bin/ruby -w
 
-
 require "matrix"
 require "gosu"
 require_relative "lib/gosu_plugin.rb"
