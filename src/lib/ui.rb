@@ -80,7 +80,7 @@ class Button < UI
 		self.selected = inx && iny
 	end
 
-	def method_ptr=(self, new_ptr)
+	def method_ptr=(new_ptr)
 		# TODO: make a method pointer for button presses etc
 	end
 
