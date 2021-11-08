@@ -12,6 +12,8 @@ require_relative "lib/objects.rb"
 require_relative "lib/controller.rb"
 require_relative "lib/world.rb"
 
+require_relative "ui/mainmenu.rb"
+
 class Window < Gosu::Window
 	attr_accessor :caption, :ui, :world, :mainmenu
 	attr_reader :width, :height, :fonts
