@@ -4,6 +4,11 @@ end
 
 class MainMenu < UI
 	attr_accessor :show, :playbtn, :quitbtn
+	
+#	def quit_game
+#		self.window.close!
+#	end
+
 	def initialize(window, show=false)
 		super window, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 99
 		@show = show

@@ -15,13 +15,18 @@ require_relative "lib/world.rb"
 require_relative "ui/mainmenu.rb"
 
 class Window < Gosu::Window
-	attr_accessor :caption, :ui, :world, :mainmenu
+	attr_accessor :caption, :ui, :world, :mainmenu, :key_events
 	attr_reader :width, :height, :fonts
 
 	def initialize(title, width, height)
 		super width, height
 		@width, @height = width, height
 		self.caption = "#{title}| #{width}x#{height}"
+
+		@key_events = {
+			up: [],
+			down: []
+		}
 
 		@ui = []
 		@fonts = {
@@ -71,6 +76,11 @@ class Window < Gosu::Window
 
 	def button_up(id)
 		super id
+		print "up: "
+		p id
+
+		@key_events[:down].delete(id) # when the key is released: stop holding it
+		@key_events[:up] << id # append the key event to the queue
 
 		if( @world && @world.controller ) then
 			@world.controller.button_up(id)
@@ -79,6 +89,8 @@ class Window < Gosu::Window
 
 	def button_down(id)
 		super id
+		print "down: "
+		p id
 
 		if( id == BIND_PAUSE ) then
 			@freeze = !@freeze
