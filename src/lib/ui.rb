@@ -42,7 +42,7 @@ class UI
 end
 
 class Button < UI
-	attr_accessor :selected, :menu, :colors
+	attr_accessor :selected, :menu, :colors, :events
 	attr_reader :text, :width, :height, :text_width, :text_height, :font, :zindex, :padding
 	def initialize(window, menu, text, font, x=0, y=0, padding={x:32, y:2}, zindex=0)
 		super window, x, y, width, height, zindex, menu.uiscale
@@ -80,12 +80,13 @@ class Button < UI
 		self.selected = inx && iny
 	end
 
-	def method_ptr=(new_ptr)
-		# TODO: make a method pointer for button presses etc
+	def add_event(event_sym, method_ptr)
+		self.events[event_sym] = method_ptr
 	end
 
-	def onclick(id, *args, **kwargs)
-		self.method_ptr.call(id, *args, **kwargs)
+	def onevent(event_sym, *args, **kwargs)
+		# self.method_ptr.call(id, *args, **kwargs)
+		self.events[event_sym].(*args, **kwargs)
 	end
 
 	def render
@@ -101,6 +102,10 @@ class MainMenu < UI
 	def initialize(window, show=false)
 		super window, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 99
 		@show = show
+	end
+
+	def quit_game
+		self.window.close!
 	end
 
 	def render
