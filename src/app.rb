@@ -92,6 +92,8 @@ class Window < Gosu::Window
 		print "down: "
 		p id
 
+		@key_events[:down] << id
+
 #		if( id == BIND_PAUSE ) then
 #			@freeze = !@freeze
 #		end
