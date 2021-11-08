@@ -97,22 +97,21 @@ class Button < UI
 	end
 end
 
+
 class MainMenu < UI
-	attr_accessor :show
+	attr_accessor :show, :playbtn, :quitbtn
 	def initialize(window, show=false)
 		super window, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 99
 		@show = show
 
 		@playbtn = Button.new(self.window, self, "Play", self.window.fonts[:button])
+		@playbtn.add_event(:onclick, method(:quit_game))
 		@playbtn.x, @playbtn.y = self.width/2 - @playbtn.width/2, self.height/2 - @playbtn.height/2
 
 		@quitbtn = Button.new(self.window, self, "Quit", self.window.fonts[:button])
 		@quitbtn.x, @quitbtn.y = self.width/2 - @quitbtn.width/2, @quitbtn.height + @playbtn.y + 16
 	end
 
-	def quit_game
-		self.window.close!
-	end
 
 	def render
 		if( @show ) then
