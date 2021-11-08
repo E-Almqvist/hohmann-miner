@@ -87,7 +87,6 @@ class Button < UI
 	end
 
 	def onevent(event_sym, *args, **kwargs)
-		# self.method_ptr.call(id, *args, **kwargs)
 		self.events[event_sym].(*args, **kwargs)
 	end
 
