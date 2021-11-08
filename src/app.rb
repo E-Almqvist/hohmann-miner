@@ -82,9 +82,9 @@ class Window < Gosu::Window
 		@key_events[:down].delete(id) # when the key is released: stop holding it
 		@key_events[:up] << id # append the key event to the queue
 
-		if( @world && @world.controller ) then
-			@world.controller.button_up(id)
-		end
+#		if( @world && @world.controller ) then
+#			@world.controller.button_up(id)
+#		end
 	end
 
 	def button_down(id)
@@ -92,29 +92,32 @@ class Window < Gosu::Window
 		print "down: "
 		p id
 
-		if( id == BIND_PAUSE ) then
-			@freeze = !@freeze
-		end
-
-		if( @world && @world.controller ) then
-			@world.controller.button_down(id)
-		end
+#		if( id == BIND_PAUSE ) then
+#			@freeze = !@freeze
+#		end
+#
+#		if( @world && @world.controller ) then
+#			@world.controller.button_down(id)
+#		end
 	end
 
 	def button_up?(id)
 		super id
 
-		if( @world && @world.controller ) then
-			@world.controller.button_up?(id)
-		end
+#		if( @world && @world.controller ) then
+#			@world.controller.button_up?(id)
+#		end
 	end
 
 	def button_down?(id)
 		super id
 
-		if( @world && @world.controller ) then
-			@world.controller.button_down?(id)
-		end
+#		if( @world && @world.controller ) then
+#			@world.controller.button_down?(id)
+#		end
+	end
+
+	private def broadcast_event(event)
 	end
 
 	def update

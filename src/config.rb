@@ -17,3 +17,17 @@ MAIN_FONT = "monospace"
 	BIND_INCREASE_THRUST = Gosu::KbUp
 	BIND_DECREASE_THRUST = Gosu::KbDown
 	BIND_TOGGLE_ENGINE = Gosu::KbSpace
+
+# Key events
+KEY_EVENTS = {
+	# UI
+	BIND_PAUSE => :pause,
+
+	# Player Controlls 
+	BIND_TURN_LEFT => :turn_left,
+	BIND_TURN_RIGHT => :turn_right,
+	BIND_INCREASE_THRUST => :increase_thrust,
+	BIND_DECREASE_THRUST => :decrease_thrust,
+	BIND_TOGGLE_ENGINE => :toggle_engine
+}
+
