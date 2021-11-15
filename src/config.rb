@@ -8,6 +8,11 @@ WINDOW_FULLSCREEN = false
 MAIN_FONT = "monospace"
 
 # Keybinds
+	# UI
+	BIND_FIRE = Gosu::MS_LEFT
+	BIND_FIRE2 = Gosu::MS_MIDDLE
+	BIND_SELECT = Gosu::MS_RIGHT
+
 	# General
 	BIND_PAUSE = Gosu::KbEscape
 
@@ -20,14 +25,20 @@ MAIN_FONT = "monospace"
 
 # Key events
 KEY_EVENTS = {
-	# UI
-	BIND_PAUSE => :pause,
+	# General 
+        general: {
+                BIND_PAUSE => :pause,
+                BIND_FIRE => :fire,
+                BIND_SELECT => :select,
+        },
 
 	# Player Controlls 
-	BIND_TURN_LEFT => :turn_left,
-	BIND_TURN_RIGHT => :turn_right,
-	BIND_INCREASE_THRUST => :increase_thrust,
-	BIND_DECREASE_THRUST => :decrease_thrust,
-	BIND_TOGGLE_ENGINE => :toggle_engine
+        player: {
+                BIND_TURN_LEFT => :turn_left,
+                BIND_TURN_RIGHT => :turn_right,
+                BIND_INCREASE_THRUST => :increase_thrust,
+                BIND_DECREASE_THRUST => :decrease_thrust,
+                BIND_TOGGLE_ENGINE => :toggle_engine
+        }
 }
 

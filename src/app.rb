@@ -6,6 +6,7 @@ require_relative "lib/gosu_plugin.rb"
 
 require_relative "config.rb"
 
+require_relative "lib/keyhook.rb"
 require_relative "lib/ui.rb"
 require_relative "lib/physobj.rb"
 require_relative "lib/objects.rb"
@@ -23,10 +24,22 @@ class Window < Gosu::Window
 		@width, @height = width, height
 		self.caption = "#{title}| #{width}x#{height}"
 
+		# Key event queue
 		@key_events = {
 			up: [],
 			down: []
 		}
+
+		# Keyhook for up releases
+		@up_keyhook = KeyHook.new
+
+		# Keyhook for down presses
+		@down_keyhook = KeyHook.new
+
+		KEY_EVENTS[:general].each do |key, event|
+			puts "Binding key '#{key}' to '#{event}'"
+			@up_keyhook.add(event, :main,)
+		end
 
 		@ui = []
 		@fonts = {
@@ -123,6 +136,8 @@ class Window < Gosu::Window
 	end
 
 	def update
+		# Call all keybind hooks
+
 		if( @world ) then
 			@world.tick
 		end
