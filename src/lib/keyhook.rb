@@ -3,6 +3,8 @@ def nullmethod
 	return
 end
 
+# TODO: use Object.create_method
+# https://apidock.com/ruby/Module/define_method
 
 # Handler for key events
 class KeyHook

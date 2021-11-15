@@ -19,6 +19,9 @@ class MainMenu < UI
 
 		@quitbtn = Button.new(self.window, self, "Quit", self.window.fonts[:button])
 		@quitbtn.x, @quitbtn.y = self.width/2 - @quitbtn.width/2, @quitbtn.height + @playbtn.y + 16
+		@quitbtn.create_method(:onclick) {
+			@window.close
+		}
 	end
 
 
