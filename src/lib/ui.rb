@@ -72,13 +72,8 @@ class Button < UI
 
 		@events = {}
 	end
-
-	def onclick
-	end
 	
-	# TODO: make this work
-	# TODO: make this also work for KeyHooks
-	def set_onclick(name, &block)
+	def create_method(name, &block)
 		self.class.send(:define_method, name, &block)
 	end
 
@@ -89,6 +84,14 @@ class Button < UI
 		# hence the ugly syntax above
 
 		self.selected = inx && iny
+	end
+
+	def add_event(event_sym, method_ptr)
+		self.events[event_sym] = method_ptr
+	end
+
+	def onevent(event_sym, *args, **kwargs)
+		self.events[event_sym].(*args, **kwargs)
 	end
 
 	def render
