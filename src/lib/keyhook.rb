@@ -24,7 +24,11 @@ class KeyHook
 		self.key_hooks[hook][event_name] = self.nullmethod_ptr
 	end
 
-	def call(hook, event_name, *args)
-		self.key_hooks[hook][event_name].call(*args)
+	def call(hook, *args)
+		self.key_hooks[hook].each { |h| h.call(*args) }
+	end
+
+	def get_hooks
+		return self.key_hooks
 	end
 end

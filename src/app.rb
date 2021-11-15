@@ -15,6 +15,16 @@ require_relative "lib/world.rb"
 
 require_relative "ui/mainmenu.rb"
 
+def pause
+	puts "Hej"
+end
+
+def fire
+end
+def select
+end
+
+
 class Window < Gosu::Window
 	attr_accessor :caption, :ui, :world, :mainmenu, :key_events
 	attr_reader :width, :height, :fonts
@@ -38,7 +48,7 @@ class Window < Gosu::Window
 
 		KEY_EVENTS[:general].each do |key, event|
 			puts "Binding key '#{key}' to '#{event}'"
-			@up_keyhook.add(event, :main,)
+			@up_keyhook.add(key, :main, event)
 		end
 
 		@ui = []
@@ -73,7 +83,7 @@ class Window < Gosu::Window
 		planet.vel = Vector[-2, 0]
 		planet.show_info = true
 
-		sol_orbiters = [cube, cube2, planet]
+		sol_orbiters = [ply, cube2, planet]
 		sol.orbit(sol_orbiters)
 
 		@world.planets << sol 
@@ -116,27 +126,14 @@ class Window < Gosu::Window
 #		end
 	end
 
-	def button_up?(id)
-		super id
-
-#		if( @world && @world.controller ) then
-#			@world.controller.button_up?(id)
-#		end
-	end
-
-	def button_down?(id)
-		super id
-
-#		if( @world && @world.controller ) then
-#			@world.controller.button_down?(id)
-#		end
-	end
-
 	private def broadcast_event(event)
 	end
 
 	def update
 		# Call all keybind hooks
+		@key_events[:up].each do |key|
+			@up_keyhook.call(key)
+		end
 
 		if( @world ) then
 			@world.tick
@@ -161,3 +158,4 @@ window.fullscreen = WINDOW_FULLSCREEN
 window.mainmenu = MainMenu.new(window, true) 
 
 window.show
+# window.start_game
