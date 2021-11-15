@@ -74,8 +74,8 @@ class Button < UI
 	end
 
 	def hover?
-		inx = window.mouse_x >= self.x && window.mouse_x <= self.x + self.width + self.padding[:x]
-		iny = window.mouse_y >= self.y && window.mouse_y <= self.y + self.height + self.padding[:y]
+		inx = window.mouse_x >= self.x && window.mouse_x <= self.x + self.width
+		iny = window.mouse_y >= self.y - self.padding[:y] && window.mouse_y <= self.y + self.height + self.padding[:y]
 		# doing `n in (a..b).to....` is too slow
 		# hence the ugly syntax above
 
