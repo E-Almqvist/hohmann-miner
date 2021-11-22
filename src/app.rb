@@ -80,7 +80,7 @@ class Window < Gosu::Window
 		@world.physobjs << cube2
 		@world.physobjs << planet
 
-		@world.freeze = true
+		@world.freeze = false 
 		self.mainmenu.show = false
 	end
 

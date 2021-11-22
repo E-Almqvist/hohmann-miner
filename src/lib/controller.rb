@@ -5,6 +5,10 @@ class Player < PhysCube
 
 		@engine = false
 		@thrust = 0.001
+
+		# Bind all the binds to all the functions stuff	
+		# world.down_keyhook.add()
+		
 	end
 
 	private def get_angle_vec
@@ -19,12 +23,6 @@ class Player < PhysCube
 		if( @engine ) then
 			self.vel += self.get_angle_vec * @thrust
 		end
-	end
-
-	def button_up(id)
-	end
-
-	def button_up?(id)
 	end
 
 	def button_down(id)
@@ -47,9 +45,6 @@ class Player < PhysCube
 			self.thrust -= 0.0005
 			self.thrust = self.thrust.round(5)
 		end
-	end
-
-	def button_down?(id)
 	end
 
 	def inspect
