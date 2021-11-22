@@ -2,6 +2,8 @@
 
 require "matrix"
 require "gosu"
+
+require_relative "utils/debug.rb"
 require_relative "lib/gosu_plugin.rb"
 
 require_relative "config.rb"
@@ -14,16 +16,6 @@ require_relative "lib/controller.rb"
 require_relative "lib/world.rb"
 
 require_relative "ui/mainmenu.rb"
-
-def pause
-	puts "Hej"
-end
-
-def fire
-end
-def select
-end
-
 
 class Window < Gosu::Window
 	attr_accessor :caption, :ui, :world, :mainmenu, :key_events
@@ -45,11 +37,6 @@ class Window < Gosu::Window
 
 		# Keyhook for down presses
 		@down_keyhook = KeyHook.new
-
-		KEY_EVENTS[:general].each do |key, event|
-			puts "Binding key '#{key}' to '#{event}'"
-			@up_keyhook.add(key, :main, event)
-		end
 
 		@ui = []
 		@fonts = {
@@ -102,6 +89,8 @@ class Window < Gosu::Window
 		print "up: "
 		p id
 
+		@up_keyhook.call(KEY_EVENTS[id])
+
 		@key_events[:down].delete(id) # when the key is released: stop holding it
 		@key_events[:up] << id # append the key event to the queue
 
@@ -131,6 +120,10 @@ class Window < Gosu::Window
 
 	def update
 		# Call all keybind hooks
+		@key_events[:down].each do |key|
+			@down_keyhook.call(key)
+		end
+
 		@key_events[:up].each do |key|
 			@up_keyhook.call(key)
 		end
