@@ -6,14 +6,16 @@ class MethodContainer
 		@method_registry = [] 
 	end
 
-	# Empty method that does nothing (placeholder for keyhooks)
-	def nullmethod
-		return nil
-	end
-
 	def create_method(name, &block)
 		method_registry << name
 		self.class.send(:define_method, name, &block)
+	end
+
+	def call(method_name, *args)
+		debug("Calling method '#{method_name}' for #{self}")
+		if( @method_registry.include? method_name ) then
+			self.send(method_name, *args)
+		end
 	end
 end
 
@@ -36,8 +38,10 @@ class KeyHook
 	end
 
 	def call(hook, *args)
-		@key_hooks[hook].each do |event_name|
-			@method_container.send(event_name, *args)
+		if( @key_hooks.key? hook ) then
+			@key_hooks[hook].each do |event_name|
+				@method_container.send(event_name, *args)
+			end
 		end
 	end
 

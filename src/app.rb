@@ -89,10 +89,9 @@ class Window < Gosu::Window
 		print "up: "
 		p id
 
+		# No queue needed for up keys
 		@up_keyhook.call(KEY_EVENTS[id])
-
 		@key_events[:down].delete(id) # when the key is released: stop holding it
-		@key_events[:up] << id # append the key event to the queue
 
 #		if( @world && @world.controller ) then
 #			@world.controller.button_up(id)
@@ -119,14 +118,11 @@ class Window < Gosu::Window
 	end
 
 	def update
-		# Call all keybind hooks
-		@key_events[:down].each do |key|
-			@down_keyhook.call(key)
+		# Call all down key events each tick
+		@key_events[:down].each do |keyid|
+			@down_keyhook.call(KEY_EVENTS[keyid])
 		end
 
-		@key_events[:up].each do |key|
-			@up_keyhook.call(key)
-		end
 
 		if( @world ) then
 			@world.tick
