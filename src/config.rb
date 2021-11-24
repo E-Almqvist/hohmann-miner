@@ -41,3 +41,6 @@ KEY_EVENTS = {
 	BIND_TOGGLE_ENGINE => :toggle_engine
 }
 
+
+EVENT_KEYS = KEY_EVENTS.invert
+

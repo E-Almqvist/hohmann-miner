@@ -8,6 +8,9 @@ class Player < PhysCube
 
 		# Bind all the binds to all the functions stuff	
 		# world.down_keyhook.add()
+#		world.down_keyhook.add(:player, :toggle_engine, {
+#			puts("ENGINE TOGGLE :D")
+#		})
 		
 	end
 
