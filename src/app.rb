@@ -94,9 +94,11 @@ class Window < Gosu::Window
 		@up_keyhook.call(KEY_EVENTS[id])
 		@key_events[:down].delete(id) # when the key is released: stop holding it
 
-#		if( @world && @world.controller ) then
-#			@world.controller.button_up(id)
-#		end
+=begin
+		if( @world && @world.controller ) then
+			@world.controller.button_up(id)
+		end
+=end
 	end
 
 	def button_down(id)
@@ -106,13 +108,13 @@ class Window < Gosu::Window
 
 		@key_events[:down] << id
 
-#		if( id == BIND_PAUSE ) then
-#			@freeze = !@freeze
-#		end
-#
-#		if( @world && @world.controller ) then
-#			@world.controller.button_down(id)
-#		end
+		if( id == BIND_PAUSE ) then
+			@freeze = !@freeze
+		end
+
+		if( @world && @world.controller ) then
+			@world.controller.button_down(id)
+		end
 	end
 
 	private def broadcast_event(event)
