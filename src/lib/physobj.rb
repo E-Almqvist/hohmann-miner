@@ -58,7 +58,7 @@ class PhysObj
 
 	def render(x_offset=0, y_offset=0, color=Gosu::Color.argb(0xaa_2222ff))
 		if( @show_info ) then
-			self.world.fonts[:normal].draw_text(self.inspect, self.pos[0] + x_offset, self.pos[1] + y_offset, 1, 1.0, 1.0, color)
+			self.world.fonts[:small].draw_text(self.inspect, self.pos[0] + x_offset, self.pos[1] + y_offset, 1, 1.0, 1.0, color)
 		end
 	end
 

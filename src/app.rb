@@ -18,7 +18,7 @@ require_relative "lib/world.rb"
 require_relative "ui/mainmenu.rb"
 
 class Window < Gosu::Window
-	attr_accessor :caption, :ui, :world, :mainmenu, :key_events
+	attr_accessor :caption, :ui, :world, :mainmenu, :key_events, :up_keyhook, :down_keyhook
 	attr_reader :width, :height, :fonts
 
 	def initialize(title, width, height)
@@ -40,6 +40,7 @@ class Window < Gosu::Window
 
 		@ui = []
 		@fonts = {
+			small: Gosu::Font.new(self, MAIN_FONT, 8),
 			normal: Gosu::Font.new(self, MAIN_FONT, 18),
 			big: Gosu::Font.new(self, MAIN_FONT, 20),
 			title: Gosu::Font.new(self, MAIN_FONT, 64),
