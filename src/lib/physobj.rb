@@ -21,12 +21,15 @@ class PhysObj
 	def apply_accel_vecs
 		summed_vec = Vector.zero(2)
 		@accel_vecs.each do |planet, vec|
+			puts "#{@name} # #{planet} : #{vec}"
 			summed_vec += vec
 		end
 		@accel = summed_vec
 	end
 
 	def tick
+		self.apply_accel_vecs
+
 		@x, @y = @pos[0], @pos[1]
 		@angle %= 360
 
@@ -51,7 +54,8 @@ class PhysObj
 	end
 
 	def inspect
-		return "\n#{self.name} - #{self.parent_orbit.name}\nVel: #{self.vel.magnitude.round(1)} #{self.vel.round(4)}\nAccel: #{self.accel.magnitude.round(4)} #{self.accel.round(4)}\nPos: #{self.pos.round(4)}\nAngle: #{self.angle.round(1)} deg\n"
+		return "\n#{self.name}"
+#		return "\n#{self.name} - #{self.parent_orbit.name}\nVel: #{self.vel.magnitude.round(1)} #{self.vel.round(4)}\nAccel: #{self.accel.magnitude.round(4)} #{self.accel.round(4)}\nPos: #{self.pos.round(4)}\nAngle: #{self.angle.round(1)} deg\n"
 	end
 
 	def render(x_offset=0, y_offset=0, color=Gosu::Color.argb(0xaa_2222ff))

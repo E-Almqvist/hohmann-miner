@@ -1,5 +1,5 @@
 class World 
-	attr_accessor :freeze, :physobjs, :planets, :controller, :camera
+	attr_accessor :freeze, :physobjs, :planets, :controller, :camera, :window
 	def initialize(seed, window)
 		@seed = seed
 		@window = window
@@ -29,12 +29,12 @@ class World
 
 	def render
 		if( @controller != nil ) then
-			self.camera = Vector[self.width/2, self.height/2] - self.controller.pos 
-			@font.draw_text(self.controller.inspect, 0, 32, 1, 1.0, 1.0, Gosu::Color::WHITE)
+			self.camera = Vector[self.window.width/2, self.window.height/2] - self.controller.pos 
+			self.window.fonts[:normal].draw_text(self.controller.inspect, 0, 32, 1, 1.0, 1.0, Gosu::Color::WHITE)
 		end
 		camx, camy = self.camera[0], self.camera[1]
 
-		@font2.draw_text("Frozen: #{@freeze}", 0, 0, 1, 1.0, 1.0, Gosu::Color::WHITE)
+		self.window.fonts[:normal].draw_text("Frozen: #{@freeze}", 0, 0, 1, 1.0, 1.0, Gosu::Color::WHITE)
 
 		@physobjs.each do |obj| 
 			obj.render(camx, camy)

@@ -54,7 +54,7 @@ class Window < Gosu::Window
 		ply.show_info = false 
 		ply.thrust = 0.0075
 		ply.pos = Vector[800, 450 + 500]
-		ply.vel = Vector[1, 0]
+		ply.vel = Vector[0.1, 0]
 		@world.controller = ply
 
 		cube2 = PhysCube.new("Beta", self, 8, 8)
@@ -81,7 +81,7 @@ class Window < Gosu::Window
 		@world.physobjs << planet
 
 		@world.freeze = false 
-		self.mainmenu.show = false
+		# self.mainmenu.show = false
 	end
 
 	def button_up(id)
@@ -144,7 +144,7 @@ end
 window = Window.new("Hohmann Miner", WINDOW_WIDTH, WINDOW_HEIGHT)
 window.fullscreen = WINDOW_FULLSCREEN
 
-window.mainmenu = MainMenu.new(window, true) 
+# window.mainmenu = MainMenu.new(window, true) 
 
+window.start_game
 window.show
-# window.start_game
