@@ -66,7 +66,7 @@ class Window < Gosu::Window
 		sol = Planet.new("Sol", self, 0xff_ffffaa, 1e2, 15, 1)
 		sol.pos = Vector[800, 450]
 
-		planet = Planet.new("Planet", self, 0xff_cccccc, 1e1, 8, 1)
+		planet = Planet.new("Planet", self, 0xff_cccccc, 1e2, 8, 1)
 		planet.pos = Vector[800, 450 + 800]
 		planet.vel = Vector[-2, 0]
 		planet.show_info = true
