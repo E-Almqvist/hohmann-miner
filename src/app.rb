@@ -54,7 +54,7 @@ class Window < Gosu::Window
 		ply.show_info = false 
 		ply.thrust = 0.0075
 		ply.pos = Vector[800, 450 + 500]
-		ply.vel = Vector[0.1, 0]
+		ply.vel = Vector[1, 0]
 		@world.controller = ply
 
 		cube2 = PhysCube.new("Beta", self, 8, 8)
@@ -74,11 +74,11 @@ class Window < Gosu::Window
 		sol.orbit(sol_orbiters)
 
 		@world.planets << sol 
-		@world.planets << planet
+		#@world.planets << planet
 
 		@world.physobjs << ply 
 		@world.physobjs << cube2
-		@world.physobjs << planet
+		#@world.physobjs << planet
 
 		@world.freeze = false 
 		# self.mainmenu.show = false

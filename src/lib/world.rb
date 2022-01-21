@@ -22,7 +22,7 @@ class World
 				orbiters += @physobjs # append each element
 				orbiters += @planets
 				orbiters.delete(planet) # dont orbit yourself, it is bad for your health.
-				planet.orbit(planets)
+				planet.orbit(orbiters)
 			end
 		end
 	end
