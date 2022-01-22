@@ -68,7 +68,7 @@ class Window < Gosu::Window
 
 		planet = Planet.new("Planet", self, 0xff_cccccc, 1e2, 8, 1)
 		planet.pos = Vector[800, 450 + 800]
-		planet.vel = Vector[-2, 0]
+		planet.vel = Vector[-1, 0]
 		planet.show_info = true
 
 		sol_orbiters = [ply, cube2, planet]
