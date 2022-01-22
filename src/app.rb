@@ -18,7 +18,7 @@ require_relative "lib/world.rb"
 require_relative "ui/mainmenu.rb"
 
 class Window < Gosu::Window
-	attr_accessor :caption, :ui, :world, :mainmenu, :key_events
+	attr_accessor :caption, :ui, :world, :mainmenu, :key_events, :up_keyhook, :down_keyhook
 	attr_reader :width, :height, :fonts
 
 	def initialize(title, width, height)
@@ -40,6 +40,7 @@ class Window < Gosu::Window
 
 		@ui = []
 		@fonts = {
+			small: Gosu::Font.new(self, MAIN_FONT, 8),
 			normal: Gosu::Font.new(self, MAIN_FONT, 18),
 			big: Gosu::Font.new(self, MAIN_FONT, 20),
 			title: Gosu::Font.new(self, MAIN_FONT, 64),
@@ -54,7 +55,7 @@ class Window < Gosu::Window
 		ply.show_info = false 
 		ply.thrust = 0.0075
 		ply.pos = Vector[800, 450 + 500]
-		ply.vel = Vector[1, 0]
+		ply.vel = Vector[1.2, 0]
 		@world.controller = ply
 
 		cube2 = PhysCube.new("Beta", self, 8, 8)
@@ -65,8 +66,8 @@ class Window < Gosu::Window
 		sol = Planet.new("Sol", self, 0xff_ffffaa, 1e2, 15, 1)
 		sol.pos = Vector[800, 450]
 
-		planet = Planet.new("Planet", self, 0xff_cccccc, 1e1, 8, 1)
-		planet.pos = Vector[800, 450 + 300]
+		planet = Planet.new("Planet", self, 0xff_cccccc, 1e2, 8, 1)
+		planet.pos = Vector[800, 450 + 800]
 		planet.vel = Vector[-2, 0]
 		planet.show_info = true
 
@@ -81,7 +82,7 @@ class Window < Gosu::Window
 		@world.physobjs << planet
 
 		@world.freeze = false 
-		self.mainmenu.show = false
+		# self.mainmenu.show = false
 	end
 
 	def button_up(id)
@@ -93,9 +94,11 @@ class Window < Gosu::Window
 		@up_keyhook.call(KEY_EVENTS[id])
 		@key_events[:down].delete(id) # when the key is released: stop holding it
 
-#		if( @world && @world.controller ) then
-#			@world.controller.button_up(id)
-#		end
+=begin
+		if( @world && @world.controller ) then
+			@world.controller.button_up(id)
+		end
+=end
 	end
 
 	def button_down(id)
@@ -105,13 +108,13 @@ class Window < Gosu::Window
 
 		@key_events[:down] << id
 
-#		if( id == BIND_PAUSE ) then
-#			@freeze = !@freeze
-#		end
-#
-#		if( @world && @world.controller ) then
-#			@world.controller.button_down(id)
-#		end
+		if( id == BIND_PAUSE ) then
+			@freeze = !@freeze
+		end
+
+		if( @world && @world.controller ) then
+			@world.controller.button_down(id)
+		end
 	end
 
 	private def broadcast_event(event)
@@ -144,7 +147,7 @@ end
 window = Window.new("Hohmann Miner", WINDOW_WIDTH, WINDOW_HEIGHT)
 window.fullscreen = WINDOW_FULLSCREEN
 
-window.mainmenu = MainMenu.new(window, true) 
+# window.mainmenu = MainMenu.new(window, true) 
 
+window.start_game
 window.show
-# window.start_game
